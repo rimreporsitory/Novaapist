@@ -3,36 +3,166 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>NOVA BOT API - Dashboard</title>
+  <title>Rim Official UI 3.0 - Dashboard API</title>
   <meta name="keywords" content="nova bot api, chat gpt, bot WhatsApp, developer nova, nova glossy, api dashboard">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { font-family: 'Roboto', sans-serif; background: #fff; color: #333; }
+    /* Global & typography */
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #fff;
+      color: #333;
+      overflow-x: hidden;
+    }
     a { text-decoration: none; }
-    .sidebar { background: linear-gradient(135deg, #e60000, #ff4d4d); min-height: 100vh; color: #fff; box-shadow: 3px 0 6px rgba(0,0,0,0.1); }
-    .sidebar .nav-link { color: #fff; transition: background 0.3s, color 0.3s; }
-    .sidebar .nav-link:hover, .sidebar .nav-link.active { background: rgba(255, 255, 255, 0.2); color: #fff; }
-    .sidebar .sidebar-brand { font-size: 1.5rem; font-weight: 700; color: #fff; padding: 1rem; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.3); }
-    .sidebar img { width: 60px; margin-bottom: 0.5rem; border: 2px solid #fff; border-radius: 50%; }
-    .navbar { background: #fff; box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); }
-    .card { border: none; border-radius: 1rem; background: linear-gradient(145deg, #ffffff, #f2f2f2); box-shadow: 5px 5px 15px #d1d1d1, -5px -5px 15px #ffffff; margin-bottom: 1.5rem; }
-    .card-title { font-weight: 700; }
-    .footer { background: #fff; padding: 1rem; text-align: center; border-top: 1px solid #e5e7eb; }
-    .scroll-to-top { position: fixed; bottom: 1rem; right: 1rem; background: #e60000; color: #fff; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.3s; }
-    .scroll-to-top:hover { background: #ff4d4d; }
-    video { display: block; margin: 0 auto; border-radius: 10px; border: 2px solid #e60000; background: #000; width: 100%; max-width: 640px; height: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
-    .video-ad { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 600px; height: 338px; z-index: 9999; background: rgba(0,0,0,0.7); border-radius: 10px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-    .transition-all { transition: all 0.3s ease; }
+    
+    /* Loading screen */
+    #loading {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s ease-out;
+    }
+    #loading.hide {
+      opacity: 0;
+      visibility: hidden;
+    }
+    .spinner-border {
+      width: 3rem;
+      height: 3rem;
+      color: #e60000;
+    }
+    
+    /* Sidebar styling */
+    .sidebar {
+      background: linear-gradient(135deg, #e60000, #ff4d4d);
+      min-height: 100vh;
+      color: #fff;
+      box-shadow: 3px 0 6px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+    .sidebar .nav-link {
+      color: #fff;
+      transition: background 0.3s, color 0.3s;
+    }
+    .sidebar .nav-link:hover, .sidebar .nav-link.active {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    .sidebar .sidebar-brand {
+      font-size: 1.5rem;
+      font-weight: 700;
+      padding: 1rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    .sidebar img {
+      width: 60px;
+      margin-bottom: 0.5rem;
+      border: 2px solid #fff;
+      border-radius: 50%;
+    }
+    
+    /* Navbar & Cards */
+    .navbar {
+      background: #fff;
+      box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    }
+    .card {
+      border: none;
+      border-radius: 1rem;
+      background: linear-gradient(145deg, #ffffff, #f2f2f2);
+      box-shadow: 5px 5px 15px #d1d1d1, -5px -5px 15px #ffffff;
+      transition: transform 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .card-title {
+      font-weight: 700;
+    }
+    .footer {
+      background: #fff;
+      padding: 1rem;
+      text-align: center;
+      border-top: 1px solid #e5e7eb;
+    }
+    .scroll-to-top {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      background: #e60000;
+      color: #fff;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s;
+    }
+    .scroll-to-top:hover {
+      background: #ff4d4d;
+    }
+    
+    /* Video Container */
+    .video-ad {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 640px;
+      background: rgba(0,0,0,0.9);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      z-index: 9998;
+      animation: fadeIn 1s ease-out;
+    }
+    .video-ad video {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    
+    /* Animasi scroll & interaksi */
+    .animate-scroll {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s ease-out;
+    }
+    .animate-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
   </style>
 </head>
 <body id="top">
+  <!-- Loading Screen -->
+  <div id="loading">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
   <div class="d-flex">
-    <nav class="sidebar p-3">
+    <!-- Sidebar -->
+    <nav class="sidebar p-3 animate-scroll">
       <div class="sidebar-brand">
-        <img src="https://files.catbox.moe/7hm4hj.jpg" alt="Avatar">
+        <img src="https://files.catbox.moe/nkur5d.png" alt="Avatar">
         <div>NOVA BOT API</div>
       </div>
       <ul class="nav flex-column mt-4">
@@ -49,8 +179,9 @@
         </li>
       </ul>
     </nav>
+    <!-- Main Content -->
     <div class="flex-grow-1">
-      <nav class="navbar navbar-expand navbar-light mb-4">
+      <nav class="navbar navbar-expand navbar-light mb-4 animate-scroll">
         <div class="container-fluid">
           <button class="btn btn-outline-secondary" id="sidebarToggle">
             <i class="fas fa-bars"></i>
@@ -58,7 +189,7 @@
           <ul class="navbar-nav ms-auto">
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                <img src="https://files.catbox.moe/7hm4hj.jpg" class="rounded-circle" style="width: 40px;" alt="Avatar">
+                <img src="https://files.catbox.moe/nkur5d.png" class="rounded-circle" style="width: 40px;" alt="Avatar">
               </a>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                 <li><a class="dropdown-item" href="#" id="profileLink">Profil</a></li>
@@ -66,6 +197,7 @@
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#">Keluar</a></li>
               </ul>
+              <!-- Profile Modal -->
               <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                   <div class="modal-content">
@@ -84,6 +216,7 @@
                   </div>
                 </div>
               </div>
+              <!-- Settings Modal -->
               <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                   <div class="modal-content">
@@ -118,28 +251,24 @@
           </ul>
         </div>
       </nav>
-      <div class="container-fluid">
+      <div class="container-fluid animate-scroll">
         <div class="mb-4">
           <h2 class="fw-bold">Dashboard API</h2>
           <p class="text-muted">Selamat datang di NOVA BOT API! Klik tombol "Go To Api" pada menu sidebar untuk mengeksplorasi layanan API kami.</p>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 mb-4">
           <div class="card text-center">
             <p class="card-bold">Informasi</p>
             <p id="visitCount" class="text-muted">Memuat...</p>
             <p id="visitHistory" class="text-muted">Memuat...</p>
           </div>
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title text-primary">Project Oleh</h5>
-                  <p class="card-text">NOVA BOT TEAM</p>
-                </div>
-              </div>
+          <div class="card mb-4">
+            <div class="card-body">
+              <h5 class="card-title text-primary">Project Oleh</h5>
+              <p class="card-text">NOVA BOT TEAM</p>
             </div>
           </div>
-          <div class="row">
+          <div class="row g-3">
             <div class="col-md-4">
               <div class="card text-center">
                 <div class="card-body">
@@ -171,13 +300,13 @@
           <div class="row mt-4">
             <div class="col text-center">
               <p class="fw-bold">Dukung Kami</p>
-              <a href="https://whatsapp.com/channel/0029VaxL7402ZjCmqq6FjE1C" class="btn btn-primary btn-sm" target="_blank">
+              <a href="https://whatsapp.com/channel/0029Vap84RE8KMqfYnd0V41A" class="btn btn-primary btn-sm" target="_blank">
                 <i class="fab fa-whatsapp"></i> Whatsapp
               </a>
             </div>
           </div>
         </div>
-        <footer class="footer mt-auto">
+        <footer class="footer animate-scroll">
           <div class="container">
             <span class="text-muted">Made by <a href="#" style="color: #e60000; font-weight: bold;">NOVA BOT API</a></span>
           </div>
@@ -185,6 +314,8 @@
       </div>
     </div>
   </div>
+
+  <!-- API Modal -->
   <div class="modal fade" id="apiModal" tabindex="-1" aria-labelledby="apiModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-scrollable">
       <div class="modal-content">
@@ -193,110 +324,55 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
         </div>
         <div class="modal-body">
+          <!-- List API (sama seperti sebelumnya) -->
           <h6 class="text-muted">AI</h6>
           <ul class="list-group mb-3">
-            <li class="list-group-item">
-              <a href="api/luminai?q=hello" target="_blank">LuminAi</a>
-            </li>
-            <li class="list-group-item">
-              <a href="api/openai?q=halo" target="_blank">OpenAi</a>
-            </li>
-            <li class="list-group-item">
-              <a href="api/islamai?q=halo" target="_blank">IslamAi</a>
-            </li>
-            <li class="list-group-item">
-              <a href="api/blackbox?q=siapa" target="_blank">Blackbox</a>
-            </li>
+            <li class="list-group-item"><a href="api/luminai?q=hello" target="_blank">LuminAi</a></li>
+            <li class="list-group-item"><a href="api/openai?q=halo" target="_blank">OpenAi</a></li>
+            <li class="list-group-item"><a href="api/islamai?q=halo" target="_blank">IslamAi</a></li>
+            <li class="list-group-item"><a href="api/blackbox?q=siapa" target="_blank">Blackbox</a></li>
           </ul>
           <h6 class="text-muted">Islam</h6>
           <ul class="list-group mb-3">
-            <li class="list-group-item">
-              <a href="api/jadwalsholat?q=jakarta" target="_blank">Jadwal Sholat</a>
-            </li>
-            <li class="list-group-item">
-              <a href="api/islam/nosurat?q=1" target="_blank">Nomor Surah</a>
-            </li>
+            <li class="list-group-item"><a href="api/jadwalsholat?q=jakarta" target="_blank">Jadwal Sholat</a></li>
+            <li class="list-group-item"><a href="api/islam/nosurat?q=1" target="_blank">Nomor Surah</a></li>
           </ul>
           <h6 class="text-muted">Search</h6>
           <ul class="list-group mb-3">
-            <li class="list-group-item">
-              <a href="api/appstore?q=minecraft" target="_blank">App Store</a>
-            </li>
-            <li class="list-group-item">
-              <a href="api/bingimg?q=kodok" target="_blank">Bing Img</a>
-            </li>
-            <li class="list-group-item">
-              <a href="api/lahelu?q=anime" target="_blank">Lahelu</a>
-            </li>
-            <li class="list-group-item">
-              <a href="api/playstore?q=minecraft" target="_blank">Play Store</a>
-            </li>
-            <li class="list-group-item">
-              <a href="api/githubSearch?q=webapi" target="_blank">Github Search</a>
-            </li>
-            <li class="list-group-item">
-              <a href="api/google/search?q=html" target="_blank">Google Search</a>
-            </li>
-            <li class="list-group-item">
-              <a href="api/pin?q=ikann" target="_blank">Pinterest</a>
-            </li>
-            <li class="list-group-item">
-              <a href="api/image/search?q=obito" target="_blank">Image Search</a>
-            </li>
-            <li class="list-group-item">
-              <a href="api/search-image?query=ikann" target="_blank">Search Image</a>
-            </li>
-            <li class="list-group-item">
-              <a href="api/search-image-advanced?query=steve" target="_blank">searchImageWithOptions</a>
-            </li>
-            <li class="list-group-item">
-              <a href="api/yts?q=acumalaka" target="_blank">Youtube Search</a>
-            </li>
+            <li class="list-group-item"><a href="api/appstore?q=minecraft" target="_blank">App Store</a></li>
+            <li class="list-group-item"><a href="api/bingimg?q=kodok" target="_blank">Bing Img</a></li>
+            <li class="list-group-item"><a href="api/lahelu?q=anime" target="_blank">Lahelu</a></li>
+            <li class="list-group-item"><a href="api/playstore?q=minecraft" target="_blank">Play Store</a></li>
+            <li class="list-group-item"><a href="api/githubSearch?q=webapi" target="_blank">Github Search</a></li>
+            <li class="list-group-item"><a href="api/google/search?q=html" target="_blank">Google Search</a></li>
+            <li class="list-group-item"><a href="api/pin?q=ikann" target="_blank">Pinterest</a></li>
+            <li class="list-group-item"><a href="api/image/search?q=obito" target="_blank">Image Search</a></li>
+            <li class="list-group-item"><a href="api/search-image?query=ikann" target="_blank">Search Image</a></li>
+            <li class="list-group-item"><a href="api/search-image-advanced?query=steve" target="_blank">searchImageWithOptions</a></li>
+            <li class="list-group-item"><a href="api/yts?q=acumalaka" target="_blank">Youtube Search</a></li>
           </ul>
           <h6 class="text-muted">Games</h6>
           <ul class="list-group mb-3">
-            <li class="list-group-item">
-              <a href="api/game/family100" target="_blank">Family 100</a>
-            </li>
-            <li class="list-group-item">
-              <a href="api/game/tebakmakanan" target="_blank">Tebak Makanan</a>
-            </li>
+            <li class="list-group-item"><a href="api/game/family100" target="_blank">Family 100</a></li>
+            <li class="list-group-item"><a href="api/game/tebakmakanan" target="_blank">Tebak Makanan</a></li>
           </ul>
           <h6 class="text-muted">Stalk</h6>
           <ul class="list-group mb-3">
-            <li class="list-group-item">
-              <a href="api/ttstalk?q=ikanngeming" target="_blank">Tiktok Stalk</a>
-            </li>
-            <li class="list-group-item">
-              <a href="api/npmStalk?q=ikanngeming" target="_blank">Npm Stalk</a>
-            </li>
-            <li class="list-group-item">
-              <a href="api/ffStalk?q=12345678" target="_blank">FF Stalk</a>
-            </li>
+            <li class="list-group-item"><a href="api/ttstalk?q=ikanngeming" target="_blank">Tiktok Stalk</a></li>
+            <li class="list-group-item"><a href="api/npmStalk?q=ikanngeming" target="_blank">Npm Stalk</a></li>
+            <li class="list-group-item"><a href="api/ffStalk?q=12345678" target="_blank">FF Stalk</a></li>
           </ul>
           <h6 class="text-muted">Tools API</h6>
           <ul class="list-group mb-3">
-            <li class="list-group-item">
-              <a href="api/remove-bg?imageUrl=" target="_blank">Remove-bg</a>
-            </li>
-            <li class="list-group-item">
-              <a href="api/bratv1?q=hai" target="_blank">Brat</a>
-            </li>
-            <li class="list-group-item">
-              <a href="api/bratv2?q=halo" target="_blank">BratV2</a>
-            </li>
-            <li class="list-group-item">
-              <a href="api/utf8?encodedText=ZnVrdXNoaW1haWQ=" target="_blank">Utf8</a>
-            </li>
-            <li class="list-group-item">
-              <a href="api/toBase64?text=hai" target="_blank">toBase64</a>
-            </li>
+            <li class="list-group-item"><a href="api/remove-bg?imageUrl=" target="_blank">Remove-bg</a></li>
+            <li class="list-group-item"><a href="api/bratv1?q=hai" target="_blank">Brat</a></li>
+            <li class="list-group-item"><a href="api/bratv2?q=halo" target="_blank">BratV2</a></li>
+            <li class="list-group-item"><a href="api/utf8?encodedText=ZnVrdXNoaW1haWQ=" target="_blank">Utf8</a></li>
+            <li class="list-group-item"><a href="api/toBase64?text=hai" target="_blank">toBase64</a></li>
           </ul>
           <h6 class="text-muted">Orkut</h6>
           <ul class="list-group">
-            <li class="list-group-item">
-              <a href="/api/orkut/createPayment?amount=&codeqr=" target="_blank">Create Payment</a>
-            </li>
+            <li class="list-group-item"><a href="/api/orkut/createPayment?amount=&codeqr=" target="_blank">Create Payment</a></li>
           </ul>
         </div>
         <div class="modal-footer">
@@ -305,10 +381,14 @@
       </div>
     </div>
   </div>
+
+  <!-- Scroll To Top Button -->
   <a class="scroll-to-top" href="#top">
     <i class="fas fa-angle-up"></i>
   </a>
-  <div class="container mx-auto p-6">
+
+  <!-- Extra Section dengan Typewriter dan Tombol Musik -->
+  <div class="container mx-auto p-6 animate-scroll">
     <div class="text-center my-10">
       <h1 id="typewriterExtra" class="text-4xl sm:text-5xl font-bold text-red-600"></h1>
     </div>
@@ -323,15 +403,34 @@
   </div>
   <audio id="audio1Extra" src="https://files.catbox.moe/p34tfi.mp3"></audio>
   <audio id="audio2Extra" src="https://files.catbox.moe/yjstbi.mp3"></audio>
+
+  <!-- Video Animasi Section -->
+  <div class="video-ad animate-scroll" id="videoAd">
+    <video autoplay muted loop playsinline>
+      <source src="https://files.catbox.moe/4zp89y.mp4" type="video/mp4">
+      Browser kamu tidak mendukung video.
+    </video>
+  </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
   <script>
+    // Hilangkan loading screen setelah halaman termuat
+    window.addEventListener('load', () => {
+      document.getElementById('loading').classList.add('hide');
+    });
+
+    // Update Jam
     function updateClock() {
       const now = new Date();
       document.getElementById('currentTime').textContent = now.toLocaleTimeString();
     }
     setInterval(updateClock, 1000);
     updateClock();
+
+    // Update hitungan post berdasarkan jumlah link di modal API
     document.getElementById('postCount').textContent = document.querySelectorAll('.modal-body a').length;
+
+    // Update Battery Level
     async function updateBattery() {
       try {
         const battery = await navigator.getBattery();
@@ -341,9 +440,13 @@
       }
     }
     updateBattery();
+
+    // Sidebar toggle
     document.getElementById('sidebarToggle').addEventListener('click', () => {
       document.querySelector('.sidebar').classList.toggle('d-none');
     });
+
+    // Pengaturan bahasa dan tema
     function saveSettings() {
       const selectedLanguage = document.getElementById("languageSelect").value;
       const selectedTheme = document.getElementById("themeSelect").value;
@@ -353,7 +456,10 @@
       applyTheme(selectedTheme);
     }
     function applyLanguage(language) {
-      const languageData = { id: { profileName: "Nama", profileEmail: "Email", profilePhone: "Nomor Telepon", languageLabel: "Bahasa", themeLabel: "Tema" }, en: { profileName: "Nama Pengembang", profileEmail: "Email", profilePhone: "Phone Number", languageLabel: "Language", themeLabel: "Theme" } };
+      const languageData = {
+        id: { profileName: "Nama", profileEmail: "Email", profilePhone: "Nomor Telepon", languageLabel: "Bahasa", themeLabel: "Tema" },
+        en: { profileName: "Nama Pengembang", profileEmail: "Email", profilePhone: "Phone Number", languageLabel: "Language", themeLabel: "Theme" }
+      };
       document.getElementById("profileName").innerText = languageData[language].profileName + ": Rim Official";
       document.getElementById("profileEmail").innerText = languageData[language].profileEmail + ": galaxysmarketplace21@gmail.com";
       document.getElementById("profilePhone").innerText = languageData[language].profilePhone + ": +6282285899023";
@@ -392,6 +498,8 @@
       document.getElementById("languageSelect").value = language;
       document.getElementById("themeSelect").value = theme;
     });
+
+    // Update hitungan kunjungan & riwayat kunjungan
     function updateVisitCount() {
       const visitKey = "visitCount";
       const currentCount = parseInt(localStorage.getItem(visitKey)) || 0;
@@ -399,17 +507,17 @@
       localStorage.setItem(visitKey, newCount);
       document.getElementById("visitCount").textContent = `Total Penggunaan: ${newCount} kali`;
     }
-    document.addEventListener("DOMContentLoaded", function () {
-      updateVisitCount();
-    });
+    document.addEventListener("DOMContentLoaded", updateVisitCount);
+    const lastVisit = localStorage.getItem("lastVisit") || "Belum pernah berkunjung.";
+    document.getElementById("visitHistory").textContent = `Terakhir berkunjung: ${lastVisit}`;
+    localStorage.setItem("lastVisit", new Date().toLocaleString());
     let startTime = Date.now();
     window.addEventListener("beforeunload", () => {
       const duration = Math.floor((Date.now() - startTime) / 1000);
       alert(`Kamu menghabiskan ${duration} detik di halaman ini.`);
     });
-    const lastVisit = localStorage.getItem("lastVisit") || "Belum pernah berkunjung.";
-    document.getElementById("visitHistory").textContent = `Terakhir berkunjung: ${lastVisit}`;
-    localStorage.setItem("lastVisit", new Date().toLocaleString());
+
+    // Typewriter effect
     const textExtra = "Welcome to Nova Api's";
     let indexExtra = 0;
     const typewriterExtra = document.getElementById('typewriterExtra');
@@ -427,6 +535,8 @@
       }
     }
     document.addEventListener("DOMContentLoaded", typeWriterExtra);
+
+    // Tombol Musik
     const audio1Extra = document.getElementById('audio1Extra');
     const audio2Extra = document.getElementById('audio2Extra');
     document.getElementById('playSong1Extra').addEventListener('click', () => {
@@ -439,6 +549,30 @@
       audio1Extra.currentTime = 0;
       audio2Extra.play();
     });
+
+    // Animasi scroll: tambahkan kelas "visible" pada elemen yang terlihat
+    const scrollElements = document.querySelectorAll('.animate-scroll');
+    const elementInView = (el, dividend = 1) => {
+      const elementTop = el.getBoundingClientRect().top;
+      return (
+        elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
+      );
+    };
+    const displayScrollElement = (element) => {
+      element.classList.add('visible');
+    };
+    const handleScrollAnimation = () => {
+      scrollElements.forEach((el) => {
+        if (elementInView(el, 1.25)) {
+          displayScrollElement(el);
+        }
+      });
+    };
+    window.addEventListener("scroll", () => {
+      handleScrollAnimation();
+    });
+    // Trigger pertama kali
+    handleScrollAnimation();
   </script>
 </body>
 </html>
