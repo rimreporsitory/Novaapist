@@ -23,6 +23,60 @@ function Dec(type) {
   return decodeURIComponent(type)
 }
 
+const { getLyrics, createLyricsImage } = require("./scrape");
+
+app.get("/api/lirik", async (req, res) => {
+  const { q, image } = req.query;
+  if (!q) {
+    return res.status(400).json({
+      status: false,
+      creator: "Nova-Apis",
+      message: "Parameter 'q' (query) tidak ditemukan",
+      image: null
+    });
+  }
+
+  try {
+    const lyrics = await getLyrics(q);
+    if (!lyrics) {
+      return res.status(404).json({
+        status: false,
+        creator: "Nova-Apis",
+        message: "Lirik tidak ditemukan",
+        image: null
+      });
+    }
+
+    const imageBuffer = await createLyricsImage(q, lyrics);
+
+    if (image === "true") {
+      res.set({
+        "Content-Type": "image/png",
+        "Content-Disposition": `inline; filename="${encodeURIComponent(q)}.png"`
+      });
+      return res.send(imageBuffer);
+    }
+
+    const filename = `lirik_${Date.now()}.png`;
+    const filePath = `./public/${filename}`;
+    fs.writeFileSync(filePath, imageBuffer);
+
+    res.json({
+      status: true,
+      creator: "Nova-Apis",
+      query: q,
+      message: "Lirik berhasil ditemukan",
+      image: `${req.protocol}://${req.get("host")}/public/${filename}`
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      creator: "Nova-Apis",
+      message: "Terjadi kesalahan pada server",
+      image: null
+    });
+  }
+});
 
 app.get('/stats', (req, res) => {
  const stats = {
@@ -146,7 +200,7 @@ app.get('/api/islam/nosurat', async (req, res) => {
     if (q >= 115) {
         return res.status(404).json({
             status: false,
-            creator: 'ikann',
+            creator: 'Nova',
             message: "Al-Qur'an hanya sampai 114 surah"
         });
     }
