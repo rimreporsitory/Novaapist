@@ -5,190 +5,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Rim Official UI 3.0 - Dashboard API</title>
   <meta name="keywords" content="nova bot api, chat gpt, bot WhatsApp, developer nova, nova glossy, api dashboard">
-  <!-- CSS dari Bootstrap & FontAwesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-  <!-- Tailwind untuk tambahan utility -->
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Global & Typography */
-    body {
-      font-family: 'Roboto', sans-serif;
-      background: #f9f9f9;
-      color: #333;
-      overflow-x: hidden;
-    }
+    body { font-family: 'Roboto', sans-serif; background: #f9f9f9; color: #333; overflow-x: hidden; }
     a { text-decoration: none; }
-    
-    /* Loading Screen */
-    #loading {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      background: #fff;
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: opacity 0.5s ease-out;
-    }
-    #loading.hide {
-      opacity: 0;
-      visibility: hidden;
-    }
-    .spinner-border {
-      width: 3rem;
-      height: 3rem;
-      color: #e60000;
-    }
-    
-    /* Sidebar Premium */
-    .sidebar {
-      background: linear-gradient(135deg, #e60000, #ff4d4d);
-      min-height: 100vh;
-      color: #fff;
-      box-shadow: 3px 0 15px rgba(0,0,0,0.2);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      overflow: hidden;
-      position: relative;
-    }
-    .sidebar:hover {
-      transform: scale(1.02);
-      box-shadow: 3px 0 25px rgba(0,0,0,0.3);
-    }
-    .sidebar .sidebar-brand {
-      font-size: 1.8rem;
-      font-weight: 700;
-      padding: 1.5rem;
-      text-align: center;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-    }
-    .sidebar img {
-      width: 70px;
-      margin-bottom: 0.5rem;
-      border: 3px solid #fff;
-      border-radius: 50%;
-      transition: transform 0.3s ease;
-    }
-    .sidebar img:hover {
-      transform: rotate(360deg);
-    }
-    .sidebar .nav-link {
-      color: #fff;
-      padding: 0.75rem 1.5rem;
-      transition: background 0.3s, color 0.3s;
-      position: relative;
-    }
-    .sidebar .nav-link:hover, .sidebar .nav-link.active {
-      background: rgba(255, 255, 255, 0.2);
-      border-left: 4px solid #fff;
-    }
-    /* Sidebar decorative animated gradient border */
-    .sidebar::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 5px;
-      height: 100%;
-      background: linear-gradient(180deg, #fff, rgba(255,255,255,0));
-      animation: glow 2s infinite alternate;
-    }
-    @keyframes glow {
-      from { opacity: 0.5; }
-      to { opacity: 1; }
-    }
-    
-    /* Navbar & Cards */
-    .navbar {
-      background: #fff;
-      box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-    }
-    .card {
-      border: none;
-      border-radius: 1rem;
-      background: linear-gradient(145deg, #ffffff, #f2f2f2);
-      box-shadow: 5px 5px 15px rgba(209,209,209,0.8), -5px -5px 15px #ffffff;
-      transition: transform 0.3s ease;
-    }
-    .card:hover {
-      transform: translateY(-5px);
-    }
-    .card-title {
-      font-weight: 700;
-    }
-    .footer {
-      background: #fff;
-      padding: 1rem;
-      text-align: center;
-      border-top: 1px solid #e5e7eb;
-    }
-    .scroll-to-top {
-      position: fixed;
-      bottom: 1rem;
-      right: 1rem;
-      background: #e60000;
-      color: #fff;
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.3s;
-    }
-    .scroll-to-top:hover {
-      background: #ff4d4d;
-    }
-    
-    /* Animasi scroll premium */
-    .animate-scroll {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-    }
-    .animate-scroll.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    #loading { position: fixed; width: 100%; height: 100%; background: #fff; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease-out; }
+    #loading.hide { opacity: 0; visibility: hidden; }
+    .spinner-border { width: 3rem; height: 3rem; color: #e60000; }
+    .sidebar { background: linear-gradient(135deg, #e60000, #ff4d4d); min-height: 100vh; color: #fff; box-shadow: 3px 0 15px rgba(0,0,0,0.2); transition: transform 0.3s ease, box-shadow 0.3s ease; overflow: hidden; position: relative; }
+    .sidebar:hover { transform: scale(1.02); box-shadow: 3px 0 25px rgba(0,0,0,0.3); }
+    .sidebar .sidebar-brand { font-size: 1.8rem; font-weight: 700; padding: 1.5rem; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.3); }
+    .sidebar img { width: 70px; margin-bottom: 0.5rem; border: 3px solid #fff; border-radius: 50%; transition: transform 0.3s ease; }
+    .sidebar img:hover { transform: rotate(360deg); }
+    .sidebar .nav-link { color: #fff; padding: 0.75rem 1.5rem; transition: background 0.3s, color 0.3s; position: relative; }
+    .sidebar .nav-link:hover, .sidebar .nav-link.active { background: rgba(255, 255, 255, 0.2); border-left: 4px solid #fff; }
+    .sidebar::after { content: ""; position: absolute; top: 0; right: 0; width: 5px; height: 100%; background: linear-gradient(180deg, #fff, rgba(255,255,255,0)); animation: glow 2s infinite alternate; }
+    @keyframes glow { from { opacity: 0.5; } to { opacity: 1; } }
+    .navbar { background: #fff; box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); }
+    .card { border: none; border-radius: 1rem; background: linear-gradient(145deg, #ffffff, #f2f2f2); box-shadow: 5px 5px 15px rgba(209,209,209,0.8), -5px -5px 15px #ffffff; transition: transform 0.3s ease; }
+    .card:hover { transform: translateY(-5px); }
+    .card-title { font-weight: 700; }
+    .footer { background: #fff; padding: 1rem; text-align: center; border-top: 1px solid #e5e7eb; }
+    .scroll-to-top { position: fixed; bottom: 1rem; right: 1rem; background: #e60000; color: #fff; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.3s; }
+    .scroll-to-top:hover { background: #ff4d4d; }
+    .animate-scroll { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+    .animate-scroll.visible { opacity: 1; transform: translateY(0); }
   </style>
 </head>
 <body id="top">
-  <!-- Loading Screen -->
   <div id="loading">
-    <div class="spinner-border" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
+    <div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>
   </div>
-
   <div class="d-flex">
-    <!-- Sidebar Premium -->
     <nav class="sidebar p-3 animate-scroll">
       <div class="sidebar-brand">
         <img src="https://files.catbox.moe/nkur5d.png" alt="Avatar">
         NOVA BOT API
       </div>
       <ul class="nav flex-column mt-4">
-        <li class="nav-item mb-2">
-          <a class="nav-link active" href="#">
-            <i class="fas fa-tachometer-alt me-2"></i>STATUS
-          </a>
-        </li>
-        <li class="nav-item mt-3">
-          <button class="btn btn-outline-light w-100" data-bs-toggle="modal" data-bs-target="#apiModal">
-            <i class="fas fa-list me-2"></i> Go To Api
-          </button>
-        </li>
+        <li class="nav-item mb-2"><a class="nav-link active" href="#"><i class="fas fa-tachometer-alt me-2"></i>STATUS</a></li>
+        <li class="nav-item mt-3"><button class="btn btn-outline-light w-100" data-bs-toggle="modal" data-bs-target="#apiModal"><i class="fas fa-list me-2"></i> Go To Api</button></li>
       </ul>
     </nav>
-    <!-- Main Content -->
     <div class="flex-grow-1">
       <nav class="navbar navbar-expand navbar-light mb-4 animate-scroll">
         <div class="container-fluid">
-          <button class="btn btn-outline-secondary" id="sidebarToggle">
-            <i class="fas fa-bars"></i>
-          </button>
+          <button class="btn btn-outline-secondary" id="sidebarToggle"><i class="fas fa-bars"></i></button>
           <ul class="navbar-nav ms-auto">
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
@@ -253,9 +118,7 @@
           <div class="row mt-4">
             <div class="col text-center">
               <p class="fw-bold">Dukung Kami</p>
-              <a href="https://whatsapp.com/channel/0029Vap84RE8KMqfYnd0V41A" class="btn btn-primary btn-sm" target="_blank">
-                <i class="fab fa-whatsapp"></i> Whatsapp
-              </a>
+              <a href="https://whatsapp.com/channel/0029Vap84RE8KMqfYnd0V41A" class="btn btn-primary btn-sm" target="_blank"><i class="fab fa-whatsapp"></i> Whatsapp</a>
             </div>
           </div>
         </div>
@@ -267,8 +130,6 @@
       </div>
     </div>
   </div>
-
-  <!-- API Modal -->
   <div class="modal fade" id="apiModal" tabindex="-1" aria-labelledby="apiModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-scrollable">
       <div class="modal-content">
@@ -277,7 +138,6 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
         </div>
         <div class="modal-body">
-          <!-- List API -->
           <h6 class="text-muted">AI</h6>
           <ul class="list-group mb-3">
             <li class="list-group-item"><a href="api/luminai?q=hello" target="_blank">LuminAi</a></li>
@@ -311,7 +171,6 @@
             <li class="list-group-item"><a href="api/bratv2?q=halo" target="_blank">BratV2</a></li>
             <li class="list-group-item"><a href="api/utf8?encodedText=ZnVrdXNoaW1haWQ=" target="_blank">Utf8</a></li>
             <li class="list-group-item"><a href="api/toBase64?text=hai" target="_blank">toBase64</a></li>
-            <!-- Link baru untuk api/lirik dengan query "sampai+akhir+waktu" -->
             <li class="list-group-item"><a href="api/lirik?q=sampai+akhir+waktu" target="_blank">Lirik Premium</a></li>
           </ul>
           <h6 class="text-muted">Orkut</h6>
@@ -325,198 +184,50 @@
       </div>
     </div>
   </div>
-
-  <!-- Scroll To Top Button -->
-  <a class="scroll-to-top" href="#top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-
-  <!-- Extra Section: Typewriter & Musik -->
+  <a class="scroll-to-top" href="#top"><i class="fas fa-angle-up"></i></a>
   <div class="container mx-auto p-6 animate-scroll">
     <div class="text-center my-10">
       <h1 id="typewriterExtra" class="text-4xl sm:text-5xl font-bold text-red-600"></h1>
     </div>
     <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-10">
-      <button id="playSong1Extra" class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-md transition-all">
-        Play Lagu 1
-      </button>
-      <button id="playSong2Extra" class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-md transition-all">
-        Play Lagu 2
-      </button>
+      <button id="playSong1Extra" class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-md transition-all">Play Lagu 1</button>
+      <button id="playSong2Extra" class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-md transition-all">Play Lagu 2</button>
     </div>
   </div>
   <audio id="audio1Extra" src="https://files.catbox.moe/p34tfi.mp3"></audio>
   <audio id="audio2Extra" src="https://files.catbox.moe/yjstbi.mp3"></audio>
-
-  <!-- Video Animasi Section -->
   <div class="video-ad animate-scroll" id="videoAd">
     <video autoplay muted loop playsinline>
       <source src="https://files.catbox.moe/4zp89y.mp4" type="video/mp4">
       Browser kamu tidak mendukung video.
     </video>
   </div>
-
-  <!-- Bootstrap Bundle & Script Custom -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
   <script>
-    // Hilangkan loading screen setelah halaman termuat
-    window.addEventListener('load', () => {
-      document.getElementById('loading').classList.add('hide');
+    document.addEventListener("DOMContentLoaded", function(){
+      window.addEventListener('load', function(){ document.getElementById('loading').classList.add('hide'); });
+      function updateClock(){ document.getElementById('currentTime').textContent = new Date().toLocaleTimeString(); }
+      setInterval(updateClock, 1000); updateClock();
+      document.getElementById('postCount').textContent = document.querySelectorAll('.modal-body a').length;
+      (async function updateBattery(){ try{ const battery = await navigator.getBattery(); document.getElementById('batteryLevel').textContent = Math.floor(battery.level*100)+'%'; } catch(e){ document.getElementById('batteryLevel').textContent = '∞'; } })();
+      document.getElementById('sidebarToggle').addEventListener('click', function(){ document.querySelector('.sidebar').classList.toggle('d-none'); });
+      function saveSettings(){ var l = document.getElementById("languageSelect").value, t = document.getElementById("themeSelect").value; localStorage.setItem("language", l); localStorage.setItem("theme", t); applyLanguage(l); applyTheme(t); }
+      function applyLanguage(lang){ var d = { id:{ profileName:"Nama", profileEmail:"Email", profilePhone:"Nomor Telepon", languageLabel:"Bahasa", themeLabel:"Tema" }, en:{ profileName:"Nama Pengembang", profileEmail:"Email", profilePhone:"Phone Number", languageLabel:"Language", themeLabel:"Theme" } }; document.getElementById("profileName").innerText = d[lang].profileName+": Rim Official"; document.getElementById("profileEmail").innerText = d[lang].profileEmail+": galaxysmarketplace21@gmail.com"; document.getElementById("profilePhone").innerText = d[lang].profilePhone+": +6282285899023"; document.getElementById("languageLabel").innerText = d[lang].languageLabel; document.getElementById("themeLabel").innerText = d[lang].themeLabel; }
+      function applyTheme(th){ if(th==="dark"){ document.body.classList.add("bg-dark", "text-light"); document.body.classList.remove("bg-light", "text-dark"); } else { document.body.classList.add("bg-light", "text-dark"); document.body.classList.remove("bg-dark", "text-light"); } }
+      document.getElementById("profileLink").addEventListener("click", function(e){ e.preventDefault(); new bootstrap.Modal(document.getElementById('profileModal')).show(); });
+      document.getElementById("settingsLink").addEventListener("click", function(e){ e.preventDefault(); new bootstrap.Modal(document.getElementById('settingsModal')).show(); });
+      document.getElementById("saveSettings").addEventListener("click", function(){ saveSettings(); bootstrap.Modal.getInstance(document.getElementById('settingsModal')).hide(); });
+      var lang = localStorage.getItem("language") || "id", th = localStorage.getItem("theme") || "light"; applyLanguage(lang); applyTheme(th); document.getElementById("languageSelect").value = lang; document.getElementById("themeSelect").value = th;
+      function updateVisitCount(){ var key="visitCount", cur = parseInt(localStorage.getItem(key))||0, n = cur+1; localStorage.setItem(key, n); document.getElementById("visitCount").textContent = "Total Penggunaan: "+n+" kali"; }
+      updateVisitCount();
+      var last = localStorage.getItem("lastVisit") || "Belum pernah berkunjung."; document.getElementById("visitHistory").textContent = "Terakhir berkunjung: "+last; localStorage.setItem("lastVisit", new Date().toLocaleString());
+      var startTime = Date.now(); window.addEventListener("beforeunload", function(){ alert("Kamu menghabiskan "+Math.floor((Date.now()-startTime)/1000)+" detik di halaman ini."); });
+      var textExtra = "Welcome to Nova Api's", idx = 0, typewriter = document.getElementById('typewriterExtra'); function typeWriter(){ if(idx<textExtra.length){ typewriter.innerHTML += textExtra.charAt(idx); idx++; setTimeout(typeWriter, 150); } else { setTimeout(function(){ typewriter.innerHTML=""; idx=0; typeWriter(); }, 2000); } } 
+      typeWriter();
+      var audio1 = document.getElementById('audio1Extra'), audio2 = document.getElementById('audio2Extra'); document.getElementById('playSong1Extra').addEventListener('click', function(){ audio2.pause(); audio2.currentTime=0; audio1.play(); }); document.getElementById('playSong2Extra').addEventListener('click', function(){ audio1.pause(); audio1.currentTime=0; audio2.play(); });
+      var scrollEls = document.querySelectorAll('.animate-scroll'); function elementInView(el, dividend=1){ return el.getBoundingClientRect().top <= (window.innerHeight || document.documentElement.clientHeight)/dividend; } function displayScroll(el){ el.classList.add('visible'); } function handleScroll(){ scrollEls.forEach(function(el){ if(elementInView(el, 1.25)) displayScroll(el); }); } window.addEventListener("scroll", handleScroll); handleScroll();
     });
-
-    // Update Jam
-    function updateClock() {
-      const now = new Date();
-      document.getElementById('currentTime').textContent = now.toLocaleTimeString();
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
-
-    // Update hitungan post berdasarkan jumlah link di modal API
-    document.getElementById('postCount').textContent = document.querySelectorAll('.modal-body a').length;
-
-    // Update Battery Level
-    async function updateBattery() {
-      try {
-        const battery = await navigator.getBattery();
-        document.getElementById('batteryLevel').textContent = Math.floor(battery.level * 100) + '%';
-      } catch (e) {
-        document.getElementById('batteryLevel').textContent = '∞';
-      }
-    }
-    updateBattery();
-
-    // Sidebar toggle
-    document.getElementById('sidebarToggle').addEventListener('click', () => {
-      document.querySelector('.sidebar').classList.toggle('d-none');
-    });
-
-    // Pengaturan bahasa dan tema
-    function saveSettings() {
-      const selectedLanguage = document.getElementById("languageSelect").value;
-      const selectedTheme = document.getElementById("themeSelect").value;
-      localStorage.setItem("language", selectedLanguage);
-      localStorage.setItem("theme", selectedTheme);
-      applyLanguage(selectedLanguage);
-      applyTheme(selectedTheme);
-    }
-    function applyLanguage(language) {
-      const languageData = {
-        id: { profileName: "Nama", profileEmail: "Email", profilePhone: "Nomor Telepon", languageLabel: "Bahasa", themeLabel: "Tema" },
-        en: { profileName: "Nama Pengembang", profileEmail: "Email", profilePhone: "Phone Number", languageLabel: "Language", themeLabel: "Theme" }
-      };
-      document.getElementById("profileName").innerText = languageData[language].profileName + ": Rim Official";
-      document.getElementById("profileEmail").innerText = languageData[language].profileEmail + ": galaxysmarketplace21@gmail.com";
-      document.getElementById("profilePhone").innerText = languageData[language].profilePhone + ": +6282285899023";
-      document.getElementById("languageLabel").innerText = languageData[language].languageLabel;
-      document.getElementById("themeLabel").innerText = languageData[language].themeLabel;
-    }
-    function applyTheme(theme) {
-      if (theme === "dark") {
-        document.body.classList.add("bg-dark", "text-light");
-        document.body.classList.remove("bg-light", "text-dark");
-      } else {
-        document.body.classList.add("bg-light", "text-dark");
-        document.body.classList.remove("bg-dark", "text-light");
-      }
-    }
-    document.getElementById("profileLink").addEventListener("click", function(event) {
-      event.preventDefault();
-      var profileModal = new bootstrap.Modal(document.getElementById('profileModal'));
-      profileModal.show();
-    });
-    document.getElementById("settingsLink").addEventListener("click", function(event) {
-      event.preventDefault();
-      var settingsModal = new bootstrap.Modal(document.getElementById('settingsModal'));
-      settingsModal.show();
-    });
-    document.getElementById("saveSettings").addEventListener("click", function() {
-      saveSettings();
-      var settingsModal = bootstrap.Modal.getInstance(document.getElementById('settingsModal'));
-      settingsModal.hide();
-    });
-    document.addEventListener("DOMContentLoaded", function() {
-      const language = localStorage.getItem("language") || "id";
-      const theme = localStorage.getItem("theme") || "light";
-      applyLanguage(language);
-      applyTheme(theme);
-      document.getElementById("languageSelect").value = language;
-      document.getElementById("themeSelect").value = theme;
-    });
-
-    // Update hitungan kunjungan & riwayat kunjungan
-    function updateVisitCount() {
-      const visitKey = "visitCount";
-      const currentCount = parseInt(localStorage.getItem(visitKey)) || 0;
-      const newCount = currentCount + 1;
-      localStorage.setItem(visitKey, newCount);
-      document.getElementById("visitCount").textContent = `Total Penggunaan: ${newCount} kali`;
-    }
-    document.addEventListener("DOMContentLoaded", updateVisitCount);
-    const lastVisit = localStorage.getItem("lastVisit") || "Belum pernah berkunjung.";
-    document.getElementById("visitHistory").textContent = `Terakhir berkunjung: ${lastVisit}`;
-    localStorage.setItem("lastVisit", new Date().toLocaleString());
-    let startTime = Date.now();
-    window.addEventListener("beforeunload", () => {
-      const duration = Math.floor((Date.now() - startTime) / 1000);
-      alert(`Kamu menghabiskan ${duration} detik di halaman ini.`);
-    });
-
-    // Typewriter effect premium
-    const textExtra = "Welcome to Nova Api's";
-    let indexExtra = 0;
-    const typewriterExtra = document.getElementById('typewriterExtra');
-    function typeWriterExtra() {
-      if (indexExtra < textExtra.length) {
-        typewriterExtra.innerHTML += textExtra.charAt(indexExtra);
-        indexExtra++;
-        setTimeout(typeWriterExtra, 150);
-      } else {
-        setTimeout(() => {
-          typewriterExtra.innerHTML = "";
-          indexExtra = 0;
-          typeWriterExtra();
-        }, 2000);
-      }
-    }
-    document.addEventListener("DOMContentLoaded", typeWriterExtra);
-
-    // Tombol Musik
-    const audio1Extra = document.getElementById('audio1Extra');
-    const audio2Extra = document.getElementById('audio2Extra');
-    document.getElementById('playSong1Extra').addEventListener('click', () => {
-      audio2Extra.pause();
-      audio2Extra.currentTime = 0;
-      audio1Extra.play();
-    });
-    document.getElementById('playSong2Extra').addEventListener('click', () => {
-      audio1Extra.pause();
-      audio1Extra.currentTime = 0;
-      audio2Extra.play();
-    });
-
-    // Animasi scroll premium: tambahkan kelas "visible" pada elemen yang terlihat
-    const scrollElements = document.querySelectorAll('.animate-scroll');
-    const elementInView = (el, dividend = 1) => {
-      const elementTop = el.getBoundingClientRect().top;
-      return elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend;
-    };
-    const displayScrollElement = (element) => {
-      element.classList.add('visible');
-    };
-    const handleScrollAnimation = () => {
-      scrollElements.forEach((el) => {
-        if (elementInView(el, 1.25)) {
-          displayScrollElement(el);
-        }
-      });
-    };
-    window.addEventListener("scroll", handleScrollAnimation);
-    // Trigger pertama kali
-    handleScrollAnimation();
   </script>
-  
-  <!-- Profile & Settings Modal (termasuk di sini agar dipanggil oleh JS) -->
   <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -566,4 +277,4 @@
     </div>
   </div>
 </body>
-  </html>
+</html>
