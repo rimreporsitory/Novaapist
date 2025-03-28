@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NOVA BOT API - Dashboard</title>
+  <meta name="keywords" content="nova bot api, chat gpt, bot WhatsApp, developer nova, nova glossy, api dashboard">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Roboto', sans-serif; background: #fff; color: #333; }
+    a { text-decoration: none; }
+    .sidebar { background: linear-gradient(135deg, #e60000, #ff4d4d); min-height: 100vh; color: #fff; box-shadow: 3px 0 6px rgba(0,0,0,0.1); }
+    .sidebar .nav-link { color: #fff; transition: background 0.3s, color 0.3s; }
+    .sidebar .nav-link:hover, .sidebar .nav-link.active { background: rgba(255, 255, 255, 0.2); color: #fff; }
+    .sidebar .sidebar-brand { font-size: 1.5rem; font-weight: 700; color: #fff; padding: 1rem; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.3); }
+    .sidebar img { width: 60px; margin-bottom: 0.5rem; border: 2px solid #fff; border-radius: 50%; }
+    .navbar { background: #fff; box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); }
+    .card { border: none; border-radius: 1rem; background: linear-gradient(145deg, #ffffff, #f2f2f2); box-shadow: 5px 5px 15px #d1d1d1, -5px -5px 15px #ffffff; margin-bottom: 1.5rem; }
+    .card-title { font-weight: 700; }
+    .footer { background: #fff; padding: 1rem; text-align: center; border-top: 1px solid #e5e7eb; }
+    .scroll-to-top { position: fixed; bottom: 1rem; right: 1rem; background: #e60000; color: #fff; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.3s; }
+    .scroll-to-top:hover { background: #ff4d4d; }
+    video { display: block; margin: 0 auto; border-radius: 10px; border: 2px solid #e60000; background: #000; width: 100%; max-width: 640px; height: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+    .video-ad { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 600px; height: 338px; z-index: 9999; background: rgba(0,0,0,0.7); border-radius: 10px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+    .transition-all { transition: all 0.3s ease; }
+  </style>
+</head>
+<body id="top">
+  <div class="d-flex">
+    <nav class="sidebar p-3">
+      <div class="sidebar-brand">
+        <img src="https://files.catbox.moe/7hm4hj.jpg" alt="Avatar">
+        <div>NOVA BOT API</div>
+      </div>
+      <ul class="nav flex-column mt-4">
+        <li class="nav-item mb-2">
+          <a class="nav-link active" href="#">
+            <i class="fas fa-thermometer-three-quarters me-2"></i>
+            STATUS
+          </a>
+        </li>
+        <li class="nav-item mt-3">
+          <button class="btn btn-outline-light w-100" data-bs-toggle="modal" data-bs-target="#apiModal">
+            <i class="fas fa-list me-2"></i> Go To Api
+          </button>
+        </li>
+      </ul>
+    </nav>
+    <div class="flex-grow-1">
+      <nav class="navbar navbar-expand navbar-light mb-4">
+        <div class="container-fluid">
+          <button class="btn btn-outline-secondary" id="sidebarToggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                <img src="https://files.catbox.moe/7hm4hj.jpg" class="rounded-circle" style="width: 40px;" alt="Avatar">
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                <li><a class="dropdown-item" href="#" id="profileLink">Profil</a></li>
+                <li><a class="dropdown-item" href="#" id="settingsLink">Pengaturan</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Keluar</a></li>
+              </ul>
+              <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="profileModalLabel">Profile Website</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <p id="profileName">Nama Pengembang: Cloud AhmadXyz</p>
+                      <p id="profileEmail">Email: novabotapi@gmail.com</p>
+                      <p id="profilePhone">Nomor Telepon: +6271527100923</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="settingsModalLabel">Pengaturan</h5>
+                      <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="mb-3">
+                        <label for="languageSelect" class="form-label" id="languageLabel">Bahasa</label>
+                        <select class="form-select" id="languageSelect">
+                          <option value="id">Bahasa Indonesia</option>
+                          <option value="en">English</option>
+                        </select>
+                      </div>
+                      <div class="mb-3">
+                        <label for="themeSelect" class="form-label" id="themeLabel">Tema</label>
+                        <select class="form-select" id="themeSelect">
+                          <option value="light">Terang</option>
+                          <option value="dark">Gelap</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                      <button type="button" class="btn btn-primary" id="saveSettings">Simpan Perubahan</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="container-fluid">
+        <div class="mb-4">
+          <h2 class="fw-bold">Dashboard API</h2>
+          <p class="text-muted">Selamat datang di NOVA BOT API! Klik tombol "Go To Api" pada menu sidebar untuk mengeksplorasi layanan API kami.</p>
+        </div>
+        <div class="col-md-4">
+          <div class="card text-center">
+            <p class="card-bold">Informasi</p>
+            <p id="visitCount" class="text-muted">Memuat...</p>
+            <p id="visitHistory" class="text-muted">Memuat...</p>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title text-primary">Project Oleh</h5>
+                  <p class="card-text">NOVA BOT TEAM</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="card text-center">
+                <div class="card-body">
+                  <h6 class="text-muted">Post</h6>
+                  <h4 id="postCount" class="fw-bold">0</h4>
+                  <i class="fas fa-fire fa-2x text-warning"></i>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card text-center">
+                <div class="card-body">
+                  <h6 class="text-muted">Battery</h6>
+                  <h4 id="batteryLevel" class="fw-bold">100%</h4>
+                  <i class="fas fa-battery-full fa-2x text-success"></i>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card text-center">
+                <div class="card-body">
+                  <h6 class="text-muted">Waktu</h6>
+                  <h4 id="currentTime" class="fw-bold">Loading...</h4>
+                  <i class="fas fa-calendar fa-2x text-primary"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col text-center">
+              <p class="fw-bold">Dukung Kami</p>
+              <a href="https://whatsapp.com/channel/0029VaxL7402ZjCmqq6FjE1C" class="btn btn-primary btn-sm" target="_blank">
+                <i class="fab fa-whatsapp"></i> Whatsapp
+              </a>
+            </div>
+          </div>
+        </div>
+        <footer class="footer mt-auto">
+          <div class="container">
+            <span class="text-muted">Made by <a href="#" style="color: #e60000; font-weight: bold;">NOVA BOT API</a></span>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="apiModal" tabindex="-1" aria-labelledby="apiModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="apiModalLabel">Daftar Layanan API</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+        </div>
+        <div class="modal-body">
+          <h6 class="text-muted">AI</h6>
+          <ul class="list-group mb-3">
+            <li class="list-group-item">
+              <a href="api/luminai?q=hello" target="_blank">LuminAi</a>
+            </li>
+            <li class="list-group-item">
+              <a href="api/openai?q=halo" target="_blank">OpenAi</a>
+            </li>
+            <li class="list-group-item">
+              <a href="api/islamai?q=halo" target="_blank">IslamAi</a>
+            </li>
+            <li class="list-group-item">
+              <a href="api/blackbox?q=siapa" target="_blank">Blackbox</a>
+            </li>
+          </ul>
+          <h6 class="text-muted">Islam</h6>
+          <ul class="list-group mb-3">
+            <li class="list-group-item">
+              <a href="api/jadwalsholat?q=jakarta" target="_blank">Jadwal Sholat</a>
+            </li>
+            <li class="list-group-item">
+              <a href="api/islam/nosurat?q=1" target="_blank">Nomor Surah</a>
+            </li>
+          </ul>
+          <h6 class="text-muted">Search</h6>
+          <ul class="list-group mb-3">
+            <li class="list-group-item">
+              <a href="api/appstore?q=minecraft" target="_blank">App Store</a>
+            </li>
+            <li class="list-group-item">
+              <a href="api/bingimg?q=kodok" target="_blank">Bing Img</a>
+            </li>
+            <li class="list-group-item">
+              <a href="api/lahelu?q=anime" target="_blank">Lahelu</a>
+            </li>
+            <li class="list-group-item">
+              <a href="api/playstore?q=minecraft" target="_blank">Play Store</a>
+            </li>
+            <li class="list-group-item">
+              <a href="api/githubSearch?q=webapi" target="_blank">Github Search</a>
+            </li>
+            <li class="list-group-item">
+              <a href="api/google/search?q=html" target="_blank">Google Search</a>
+            </li>
+            <li class="list-group-item">
+              <a href="api/pin?q=ikann" target="_blank">Pinterest</a>
+            </li>
+            <li class="list-group-item">
+              <a href="api/image/search?q=obito" target="_blank">Image Search</a>
+            </li>
+            <li class="list-group-item">
+              <a href="api/search-image?query=ikann" target="_blank">Search Image</a>
+            </li>
+            <li class="list-group-item">
+              <a href="api/search-image-advanced?query=steve" target="_blank">searchImageWithOptions</a>
+            </li>
+            <li class="list-group-item">
+              <a href="api/yts?q=acumalaka" target="_blank">Youtube Search</a>
+            </li>
+          </ul>
+          <h6 class="text-muted">Games</h6>
+          <ul class="list-group mb-3">
+            <li class="list-group-item">
+              <a href="api/game/family100" target="_blank">Family 100</a>
+            </li>
+            <li class="list-group-item">
+              <a href="api/game/tebakmakanan" target="_blank">Tebak Makanan</a>
+            </li>
+          </ul>
+          <h6 class="text-muted">Stalk</h6>
+          <ul class="list-group mb-3">
+            <li class="list-group-item">
+              <a href="api/ttstalk?q=ikanngeming" target="_blank">Tiktok Stalk</a>
+            </li>
+            <li class="list-group-item">
+              <a href="api/npmStalk?q=ikanngeming" target="_blank">Npm Stalk</a>
+            </li>
+            <li class="list-group-item">
+              <a href="api/ffStalk?q=12345678" target="_blank">FF Stalk</a>
+            </li>
+          </ul>
+          <h6 class="text-muted">Tools API</h6>
+          <ul class="list-group mb-3">
+            <li class="list-group-item">
+              <a href="api/remove-bg?imageUrl=" target="_blank">Remove-bg</a>
+            </li>
+            <li class="list-group-item">
+              <a href="api/bratv1?q=hai" target="_blank">Brat</a>
+            </li>
+            <li class="list-group-item">
+              <a href="api/bratv2?q=halo" target="_blank">BratV2</a>
+            </li>
+            <li class="list-group-item">
+              <a href="api/utf8?encodedText=ZnVrdXNoaW1haWQ=" target="_blank">Utf8</a>
+            </li>
+            <li class="list-group-item">
+              <a href="api/toBase64?text=hai" target="_blank">toBase64</a>
+            </li>
+          </ul>
+          <h6 class="text-muted">Orkut</h6>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <a href="/api/orkut/createPayment?amount=&codeqr=" target="_blank">Create Payment</a>
+            </li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a class="scroll-to-top" href="#top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+  <div class="container mx-auto p-6">
+    <div class="text-center my-10">
+      <h1 id="typewriterExtra" class="text-4xl sm:text-5xl font-bold text-red-600"></h1>
+    </div>
+    <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-10">
+      <button id="playSong1Extra" class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-md transition-all">
+        Play Lagu 1
+      </button>
+      <button id="playSong2Extra" class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-md transition-all">
+        Play Lagu 2
+      </button>
+    </div>
+  </div>
+  <audio id="audio1Extra" src="https://files.catbox.moe/p34tfi.mp3"></audio>
+  <audio id="audio2Extra" src="https://files.catbox.moe/yjstbi.mp3"></audio>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('currentTime').textContent = now.toLocaleTimeString();
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+    document.getElementById('postCount').textContent = document.querySelectorAll('.modal-body a').length;
+    async function updateBattery() {
+      try {
+        const battery = await navigator.getBattery();
+        document.getElementById('batteryLevel').textContent = Math.floor(battery.level * 100) + '%';
+      } catch (e) {
+        document.getElementById('batteryLevel').textContent = '∞';
+      }
+    }
+    updateBattery();
+    document.getElementById('sidebarToggle').addEventListener('click', () => {
+      document.querySelector('.sidebar').classList.toggle('d-none');
+    });
+    function saveSettings() {
+      const selectedLanguage = document.getElementById("languageSelect").value;
+      const selectedTheme = document.getElementById("themeSelect").value;
+      localStorage.setItem("language", selectedLanguage);
+      localStorage.setItem("theme", selectedTheme);
+      applyLanguage(selectedLanguage);
+      applyTheme(selectedTheme);
+    }
+    function applyLanguage(language) {
+      const languageData = { id: { profileName: "Nama", profileEmail: "Email", profilePhone: "Nomor Telepon", languageLabel: "Bahasa", themeLabel: "Tema" }, en: { profileName: "Nama Pengembang", profileEmail: "Email", profilePhone: "Phone Number", languageLabel: "Language", themeLabel: "Theme" } };
+      document.getElementById("profileName").innerText = languageData[language].profileName + ": Rim Official";
+      document.getElementById("profileEmail").innerText = languageData[language].profileEmail + ": galaxysmarketplace21@gmail.com";
+      document.getElementById("profilePhone").innerText = languageData[language].profilePhone + ": +6282285899023";
+      document.getElementById("languageLabel").innerText = languageData[language].languageLabel;
+      document.getElementById("themeLabel").innerText = languageData[language].themeLabel;
+    }
+    function applyTheme(theme) {
+      if (theme === "dark") {
+        document.body.classList.add("bg-dark", "text-light");
+        document.body.classList.remove("bg-light", "text-dark");
+      } else {
+        document.body.classList.add("bg-light", "text-dark");
+        document.body.classList.remove("bg-dark", "text-light");
+      }
+    }
+    document.getElementById("profileLink").addEventListener("click", function(event) {
+      event.preventDefault();
+      var profileModal = new bootstrap.Modal(document.getElementById('profileModal'));
+      profileModal.show();
+    });
+    document.getElementById("settingsLink").addEventListener("click", function(event) {
+      event.preventDefault();
+      var settingsModal = new bootstrap.Modal(document.getElementById('settingsModal'));
+      settingsModal.show();
+    });
+    document.getElementById("saveSettings").addEventListener("click", function() {
+      saveSettings();
+      var settingsModal = bootstrap.Modal.getInstance(document.getElementById('settingsModal'));
+      settingsModal.hide();
+    });
+    document.addEventListener("DOMContentLoaded", function() {
+      const language = localStorage.getItem("language") || "id";
+      const theme = localStorage.getItem("theme") || "light";
+      applyLanguage(language);
+      applyTheme(theme);
+      document.getElementById("languageSelect").value = language;
+      document.getElementById("themeSelect").value = theme;
+    });
+    function updateVisitCount() {
+      const visitKey = "visitCount";
+      const currentCount = parseInt(localStorage.getItem(visitKey)) || 0;
+      const newCount = currentCount + 1;
+      localStorage.setItem(visitKey, newCount);
+      document.getElementById("visitCount").textContent = `Total Penggunaan: ${newCount} kali`;
+    }
+    document.addEventListener("DOMContentLoaded", function () {
+      updateVisitCount();
+    });
+    let startTime = Date.now();
+    window.addEventListener("beforeunload", () => {
+      const duration = Math.floor((Date.now() - startTime) / 1000);
+      alert(`Kamu menghabiskan ${duration} detik di halaman ini.`);
+    });
+    const lastVisit = localStorage.getItem("lastVisit") || "Belum pernah berkunjung.";
+    document.getElementById("visitHistory").textContent = `Terakhir berkunjung: ${lastVisit}`;
+    localStorage.setItem("lastVisit", new Date().toLocaleString());
+    const textExtra = "Welcome to Nova Api's";
+    let indexExtra = 0;
+    const typewriterExtra = document.getElementById('typewriterExtra');
+    function typeWriterExtra() {
+      if (indexExtra < textExtra.length) {
+        typewriterExtra.innerHTML += textExtra.charAt(indexExtra);
+        indexExtra++;
+        setTimeout(typeWriterExtra, 150);
+      } else {
+        setTimeout(() => {
+          typewriterExtra.innerHTML = "";
+          indexExtra = 0;
+          typeWriterExtra();
+        }, 2000);
+      }
+    }
+    document.addEventListener("DOMContentLoaded", typeWriterExtra);
+    const audio1Extra = document.getElementById('audio1Extra');
+    const audio2Extra = document.getElementById('audio2Extra');
+    document.getElementById('playSong1Extra').addEventListener('click', () => {
+      audio2Extra.pause();
+      audio2Extra.currentTime = 0;
+      audio1Extra.play();
+    });
+    document.getElementById('playSong2Extra').addEventListener('click', () => {
+      audio1Extra.pause();
+      audio1Extra.currentTime = 0;
+      audio2Extra.play();
+    });
+  </script>
+</body>
+</html>
