@@ -5,54 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Rim Official UI 3.0 - Dashboard API</title>
   <meta name="keywords" content="nova bot api, chat gpt, bot WhatsApp, developer nova, nova glossy, api dashboard">
+  <!-- CSS dari Bootstrap & FontAwesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- Tailwind untuk tambahan utility -->
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Global Styles */
+    /* Global & Typography */
     body {
       font-family: 'Roboto', sans-serif;
-      margin: 0;
-      padding: 0;
+      background: #f9f9f9;
+      color: #333;
       overflow-x: hidden;
-      position: relative;
     }
     a { text-decoration: none; }
-    
-    /* Background Video */
-    .bg-video {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: -2;
-    }
-    /* Overlay untuk meningkatkan keterbacaan */
-    .bg-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.4);
-      z-index: -1;
-    }
     
     /* Loading Screen */
     #loading {
       position: fixed;
-      top: 0;
-      left: 0;
       width: 100%;
       height: 100%;
       background: #fff;
+      z-index: 9999;
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 9999;
       transition: opacity 0.5s ease-out;
     }
     #loading.hide {
@@ -65,61 +43,86 @@
       color: #e60000;
     }
     
-    /* Sidebar */
+    /* Sidebar Premium */
     .sidebar {
       background: linear-gradient(135deg, #e60000, #ff4d4d);
       min-height: 100vh;
       color: #fff;
-      box-shadow: 3px 0 6px rgba(0,0,0,0.1);
-      transition: all 0.3s ease;
+      box-shadow: 3px 0 15px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      overflow: hidden;
+      position: relative;
     }
-    .sidebar .nav-link {
-      color: #fff;
-      transition: background 0.3s, color 0.3s;
-    }
-    .sidebar .nav-link:hover, .sidebar .nav-link.active {
-      background: rgba(255, 255, 255, 0.2);
+    .sidebar:hover {
+      transform: scale(1.02);
+      box-shadow: 3px 0 25px rgba(0,0,0,0.3);
     }
     .sidebar .sidebar-brand {
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       font-weight: 700;
-      padding: 1rem;
+      padding: 1.5rem;
       text-align: center;
       border-bottom: 1px solid rgba(255, 255, 255, 0.3);
     }
     .sidebar img {
-      width: 60px;
+      width: 70px;
       margin-bottom: 0.5rem;
-      border: 2px solid #fff;
+      border: 3px solid #fff;
       border-radius: 50%;
+      transition: transform 0.3s ease;
+    }
+    .sidebar img:hover {
+      transform: rotate(360deg);
+    }
+    .sidebar .nav-link {
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      transition: background 0.3s, color 0.3s;
+      position: relative;
+    }
+    .sidebar .nav-link:hover, .sidebar .nav-link.active {
+      background: rgba(255, 255, 255, 0.2);
+      border-left: 4px solid #fff;
+    }
+    /* Sidebar decorative animated gradient border */
+    .sidebar::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 5px;
+      height: 100%;
+      background: linear-gradient(180deg, #fff, rgba(255,255,255,0));
+      animation: glow 2s infinite alternate;
+    }
+    @keyframes glow {
+      from { opacity: 0.5; }
+      to { opacity: 1; }
     }
     
     /* Navbar & Cards */
     .navbar {
-      background: rgba(255, 255, 255, 0.9);
+      background: #fff;
       box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-      backdrop-filter: blur(10px);
     }
     .card {
       border: none;
       border-radius: 1rem;
       background: linear-gradient(145deg, #ffffff, #f2f2f2);
-      box-shadow: 5px 5px 15px #d1d1d1, -5px -5px 15px #ffffff;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 5px 5px 15px rgba(209,209,209,0.8), -5px -5px 15px #ffffff;
+      transition: transform 0.3s ease;
     }
     .card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     }
     .card-title {
       font-weight: 700;
     }
     .footer {
-      background: rgba(255, 255, 255, 0.9);
+      background: #fff;
       padding: 1rem;
       text-align: center;
       border-top: 1px solid #e5e7eb;
-      backdrop-filter: blur(10px);
     }
     .scroll-to-top {
       position: fixed;
@@ -134,41 +137,24 @@
       align-items: center;
       justify-content: center;
       transition: background 0.3s;
-      z-index: 100;
     }
     .scroll-to-top:hover {
       background: #ff4d4d;
     }
     
-    /* Animasi muncul saat scroll */
+    /* Animasi scroll premium */
     .animate-scroll {
       opacity: 0;
       transform: translateY(20px);
-      transition: all 0.6s ease-out;
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
     }
     .animate-scroll.visible {
       opacity: 1;
       transform: translateY(0);
     }
-    
-    /* Animasi tombol */
-    .btn-animate {
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .btn-animate:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
   </style>
 </head>
 <body id="top">
-  <!-- Background Video dan Overlay -->
-  <video class="bg-video" autoplay muted loop playsinline>
-    <source src="https://files.catbox.moe/4zp89y.mp4" type="video/mp4">
-    Browser kamu tidak mendukung video.
-  </video>
-  <div class="bg-overlay"></div>
-
   <!-- Loading Screen -->
   <div id="loading">
     <div class="spinner-border" role="status">
@@ -177,20 +163,20 @@
   </div>
 
   <div class="d-flex">
-    <!-- Sidebar -->
+    <!-- Sidebar Premium -->
     <nav class="sidebar p-3 animate-scroll">
       <div class="sidebar-brand">
         <img src="https://files.catbox.moe/nkur5d.png" alt="Avatar">
-        <div>NOVA BOT API</div>
+        NOVA BOT API
       </div>
       <ul class="nav flex-column mt-4">
         <li class="nav-item mb-2">
           <a class="nav-link active" href="#">
-            <i class="fas fa-thermometer-three-quarters me-2"></i> STATUS
+            <i class="fas fa-tachometer-alt me-2"></i>STATUS
           </a>
         </li>
         <li class="nav-item mt-3">
-          <button class="btn btn-outline-light w-100 btn-animate" data-bs-toggle="modal" data-bs-target="#apiModal">
+          <button class="btn btn-outline-light w-100" data-bs-toggle="modal" data-bs-target="#apiModal">
             <i class="fas fa-list me-2"></i> Go To Api
           </button>
         </li>
@@ -200,12 +186,12 @@
     <div class="flex-grow-1">
       <nav class="navbar navbar-expand navbar-light mb-4 animate-scroll">
         <div class="container-fluid">
-          <button class="btn btn-outline-secondary btn-animate" id="sidebarToggle">
+          <button class="btn btn-outline-secondary" id="sidebarToggle">
             <i class="fas fa-bars"></i>
           </button>
           <ul class="navbar-nav ms-auto">
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle btn-animate" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
                 <img src="https://files.catbox.moe/nkur5d.png" class="rounded-circle" style="width: 40px;" alt="Avatar">
               </a>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
@@ -214,67 +200,17 @@
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#">Keluar</a></li>
               </ul>
-              <!-- Profile Modal -->
-              <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="profileModalLabel">Profile Website</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                      <p id="profileName">Nama Pengembang: Cloud AhmadXyz</p>
-                      <p id="profileEmail">Email: novabotapi@gmail.com</p>
-                      <p id="profilePhone">Nomor Telepon: +6271527100923</p>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary btn-animate" data-bs-dismiss="modal">Tutup</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- Settings Modal -->
-              <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="settingsModalLabel">Pengaturan</h5>
-                      <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                      <div class="mb-3">
-                        <label for="languageSelect" class="form-label" id="languageLabel">Bahasa</label>
-                        <select class="form-select" id="languageSelect">
-                          <option value="id">Bahasa Indonesia</option>
-                          <option value="en">English</option>
-                        </select>
-                      </div>
-                      <div class="mb-3">
-                        <label for="themeSelect" class="form-label" id="themeLabel">Tema</label>
-                        <select class="form-select" id="themeSelect">
-                          <option value="light">Terang</option>
-                          <option value="dark">Gelap</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary btn-animate" data-bs-dismiss="modal">Tutup</button>
-                      <button type="button" class="btn btn-primary btn-animate" id="saveSettings">Simpan Perubahan</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </li>
           </ul>
         </div>
       </nav>
       <div class="container-fluid animate-scroll">
         <div class="mb-4">
-          <h2 class="fw-bold text-white">Dashboard API</h2>
-          <p class="text-white">Selamat datang di NOVA BOT API! Klik tombol "Go To Api" pada menu sidebar untuk mengeksplorasi layanan API kami.</p>
+          <h2 class="fw-bold">Dashboard API</h2>
+          <p class="text-muted">Selamat datang di NOVA BOT API! Klik tombol "Go To Api" pada menu sidebar untuk mengeksplorasi layanan API kami.</p>
         </div>
         <div class="col-md-4 mb-4">
-          <div class="card text-center">
+          <div class="card text-center p-3">
             <p class="card-bold">Informasi</p>
             <p id="visitCount" class="text-muted">Memuat...</p>
             <p id="visitHistory" class="text-muted">Memuat...</p>
@@ -316,8 +252,8 @@
           </div>
           <div class="row mt-4">
             <div class="col text-center">
-              <p class="fw-bold text-white">Dukung Kami</p>
-              <a href="https://whatsapp.com/channel/0029Vap84RE8KMqfYnd0V41A" class="btn btn-primary btn-sm btn-animate" target="_blank">
+              <p class="fw-bold">Dukung Kami</p>
+              <a href="https://whatsapp.com/channel/0029Vap84RE8KMqfYnd0V41A" class="btn btn-primary btn-sm" target="_blank">
                 <i class="fab fa-whatsapp"></i> Whatsapp
               </a>
             </div>
@@ -338,10 +274,10 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="apiModalLabel">Daftar Layanan API</h5>
-          <button type="button" class="btn-close btn-animate" data-bs-dismiss="modal" aria-label="Tutup"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
         </div>
         <div class="modal-body">
-          <!-- Daftar API (sesuaikan dengan kebutuhan) -->
+          <!-- List API -->
           <h6 class="text-muted">AI</h6>
           <ul class="list-group mb-3">
             <li class="list-group-item"><a href="api/luminai?q=hello" target="_blank">LuminAi</a></li>
@@ -368,17 +304,6 @@
             <li class="list-group-item"><a href="api/search-image-advanced?query=steve" target="_blank">searchImageWithOptions</a></li>
             <li class="list-group-item"><a href="api/yts?q=acumalaka" target="_blank">Youtube Search</a></li>
           </ul>
-          <h6 class="text-muted">Games</h6>
-          <ul class="list-group mb-3">
-            <li class="list-group-item"><a href="api/game/family100" target="_blank">Family 100</a></li>
-            <li class="list-group-item"><a href="api/game/tebakmakanan" target="_blank">Tebak Makanan</a></li>
-          </ul>
-          <h6 class="text-muted">Stalk</h6>
-          <ul class="list-group mb-3">
-            <li class="list-group-item"><a href="api/ttstalk?q=ikanngeming" target="_blank">Tiktok Stalk</a></li>
-            <li class="list-group-item"><a href="api/npmStalk?q=ikanngeming" target="_blank">Npm Stalk</a></li>
-            <li class="list-group-item"><a href="api/ffStalk?q=12345678" target="_blank">FF Stalk</a></li>
-          </ul>
           <h6 class="text-muted">Tools API</h6>
           <ul class="list-group mb-3">
             <li class="list-group-item"><a href="api/remove-bg?imageUrl=" target="_blank">Remove-bg</a></li>
@@ -386,6 +311,8 @@
             <li class="list-group-item"><a href="api/bratv2?q=halo" target="_blank">BratV2</a></li>
             <li class="list-group-item"><a href="api/utf8?encodedText=ZnVrdXNoaW1haWQ=" target="_blank">Utf8</a></li>
             <li class="list-group-item"><a href="api/toBase64?text=hai" target="_blank">toBase64</a></li>
+            <!-- Link baru untuk api/lirik dengan query "sampai+akhir+waktu" -->
+            <li class="list-group-item"><a href="api/lirik?q=sampai+akhir+waktu" target="_blank">Lirik Premium</a></li>
           </ul>
           <h6 class="text-muted">Orkut</h6>
           <ul class="list-group">
@@ -393,38 +320,51 @@
           </ul>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary btn-animate" data-bs-dismiss="modal">Tutup</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Scroll To Top Button -->
-  <a class="scroll-to-top btn-animate" href="#top">
+  <a class="scroll-to-top" href="#top">
     <i class="fas fa-angle-up"></i>
   </a>
 
-  <!-- Extra Section dengan Typewriter dan Tombol Musik -->
+  <!-- Extra Section: Typewriter & Musik -->
   <div class="container mx-auto p-6 animate-scroll">
     <div class="text-center my-10">
       <h1 id="typewriterExtra" class="text-4xl sm:text-5xl font-bold text-red-600"></h1>
     </div>
-    <div class="d-flex justify-content-center gap-4 mb-10">
-      <button id="playSong1Extra" class="btn btn-danger btn-animate px-4 py-2">Play Lagu 1</button>
-      <button id="playSong2Extra" class="btn btn-danger btn-animate px-4 py-2">Play Lagu 2</button>
+    <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-10">
+      <button id="playSong1Extra" class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-md transition-all">
+        Play Lagu 1
+      </button>
+      <button id="playSong2Extra" class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-md transition-all">
+        Play Lagu 2
+      </button>
     </div>
   </div>
   <audio id="audio1Extra" src="https://files.catbox.moe/p34tfi.mp3"></audio>
   <audio id="audio2Extra" src="https://files.catbox.moe/yjstbi.mp3"></audio>
 
+  <!-- Video Animasi Section -->
+  <div class="video-ad animate-scroll" id="videoAd">
+    <video autoplay muted loop playsinline>
+      <source src="https://files.catbox.moe/4zp89y.mp4" type="video/mp4">
+      Browser kamu tidak mendukung video.
+    </video>
+  </div>
+
+  <!-- Bootstrap Bundle & Script Custom -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
   <script>
-    // Hilangkan loading screen saat halaman sudah termuat
+    // Hilangkan loading screen setelah halaman termuat
     window.addEventListener('load', () => {
       document.getElementById('loading').classList.add('hide');
     });
 
-    // Update jam secara real-time
+    // Update Jam
     function updateClock() {
       const now = new Date();
       document.getElementById('currentTime').textContent = now.toLocaleTimeString();
@@ -432,10 +372,10 @@
     setInterval(updateClock, 1000);
     updateClock();
 
-    // Update hitungan post dari jumlah link API di modal
+    // Update hitungan post berdasarkan jumlah link di modal API
     document.getElementById('postCount').textContent = document.querySelectorAll('.modal-body a').length;
 
-    // Update battery (jika support)
+    // Update Battery Level
     async function updateBattery() {
       try {
         const battery = await navigator.getBattery();
@@ -451,7 +391,7 @@
       document.querySelector('.sidebar').classList.toggle('d-none');
     });
 
-    // Pengaturan bahasa & tema
+    // Pengaturan bahasa dan tema
     function saveSettings() {
       const selectedLanguage = document.getElementById("languageSelect").value;
       const selectedTheme = document.getElementById("themeSelect").value;
@@ -504,7 +444,7 @@
       document.getElementById("themeSelect").value = theme;
     });
 
-    // Update hitungan kunjungan & riwayat
+    // Update hitungan kunjungan & riwayat kunjungan
     function updateVisitCount() {
       const visitKey = "visitCount";
       const currentCount = parseInt(localStorage.getItem(visitKey)) || 0;
@@ -522,7 +462,7 @@
       alert(`Kamu menghabiskan ${duration} detik di halaman ini.`);
     });
 
-    // Typewriter effect
+    // Typewriter effect premium
     const textExtra = "Welcome to Nova Api's";
     let indexExtra = 0;
     const typewriterExtra = document.getElementById('typewriterExtra');
@@ -555,7 +495,7 @@
       audio2Extra.play();
     });
 
-    // Animasi scroll: tambahkan kelas "visible" ketika elemen terlihat
+    // Animasi scroll premium: tambahkan kelas "visible" pada elemen yang terlihat
     const scrollElements = document.querySelectorAll('.animate-scroll');
     const elementInView = (el, dividend = 1) => {
       const elementTop = el.getBoundingClientRect().top;
@@ -572,7 +512,58 @@
       });
     };
     window.addEventListener("scroll", handleScrollAnimation);
+    // Trigger pertama kali
     handleScrollAnimation();
   </script>
+  
+  <!-- Profile & Settings Modal (termasuk di sini agar dipanggil oleh JS) -->
+  <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="profileModalLabel">Profile Website</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p id="profileName">Nama Pengembang: Rim Official</p>
+          <p id="profileEmail">Email: galaxysmarketplace21@gmail.com</p>
+          <p id="profilePhone">Nomor Telepon: +6282285899023</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="settingsModalLabel">Pengaturan</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="languageSelect" class="form-label" id="languageLabel">Bahasa</label>
+            <select class="form-select" id="languageSelect">
+              <option value="id">Bahasa Indonesia</option>
+              <option value="en">English</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="themeSelect" class="form-label" id="themeLabel">Tema</label>
+            <select class="form-select" id="themeSelect">
+              <option value="light">Terang</option>
+              <option value="dark">Gelap</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+          <button type="button" class="btn btn-primary" id="saveSettings">Simpan Perubahan</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
-</html>
+  </html>
