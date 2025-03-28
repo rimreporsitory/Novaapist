@@ -8,7 +8,122 @@ const cheerio = require('cheerio')
 const { createCanvas, loadImage } = require('canvas')
 const ytSearch = require('yt-search')
 const puppeteer = require('puppeteer')
+const fetch = require("node-fetch");
 
+async function getLyrics(judulLagu) {
+  try {
+    const response = await fetch(
+      `https://r.jina.ai/https://www.google.com/search?q=lirik+lagu+${encodeURIComponent(judulLagu)}&hl=en`,
+      { headers: { "x-return-format": "html", "x-engine": "cf-browser-rendering" } }
+    );
+    const html = await response.text();
+    const $ = cheerio.load(html);
+    const lirik = [];
+    const output = {};
+    
+    $("div[jsname='U8S5sf']").each((_, el) => {
+      let out = "";
+      $(el).find('span[jsname="YS01Ge"]').each((_, span) => {
+        out += $(span).text() + "\n";
+      });
+      lirik.push(out.trim());
+    });
+
+    output.lyrics = lirik.join("\n\n");
+    output.title = $("div.PZPZlf").first().text().trim() || judulLagu;
+    if (!output.lyrics) throw new Error("No lyrics found");
+
+    return output;
+  } catch {
+    return { title: judulLagu, lyrics: "Lirik tidak ditemukan." };
+  }
+}
+
+function roundRect(ctx, x, y, width, height, radius) {
+  ctx.beginPath();
+  ctx.moveTo(x + radius, y);
+  ctx.arcTo(x + width, y, x + width, y + height, radius);
+  ctx.arcTo(x + width, y + height, x, y + height, radius);
+  ctx.arcTo(x, y + height, x, y, radius);
+  ctx.arcTo(x, y, x + width, y, radius);
+  ctx.closePath();
+}
+
+function wrapText(ctx, text, maxWidth) {
+  let words = text.split(" ");
+  let lines = [];
+  let currentLine = words[0];
+
+  for (let i = 1; i < words.length; i++) {
+    let width = ctx.measureText(currentLine + " " + words[i]).width;
+    if (width < maxWidth) {
+      currentLine += " " + words[i];
+    } else {
+      lines.push(currentLine);
+      currentLine = words[i];
+    }
+  }
+  lines.push(currentLine);
+  return lines;
+}
+
+async function createLyricsImage(judulLagu) {
+  const { title, lyrics } = await getLyrics(judulLagu);
+  const canvasWidth = 1000, canvasHeight = 1400;
+  const canvas = createCanvas(canvasWidth, canvasHeight);
+  const ctx = canvas.getContext("2d");
+
+  const bgImage = await loadImage("https://files.catbox.moe/u53vox.jpg");
+  ctx.drawImage(bgImage, 0, 0, canvasWidth, canvasHeight);
+  ctx.fillStyle = "rgba(0,0,0,0.4)";
+  ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+  ctx.lineWidth = 20;
+  ctx.strokeStyle = "#1DB954";
+  roundRect(ctx, 10, 10, canvasWidth - 20, canvasHeight - 20, 40);
+  ctx.stroke();
+
+  const headerX = 50, headerY = 40, headerW = canvasWidth - 100, headerH = 220;
+  ctx.fillStyle = "rgba(0,0,0,0.7)";
+  roundRect(ctx, headerX, headerY, headerW, headerH, 30);
+  ctx.fill();
+
+  const photoSize = 150, photoX = headerX + 20, photoY = headerY + (headerH - photoSize) / 2;
+  const photoImg = await loadImage("https://files.catbox.moe/nkur5d.png");
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(photoX + photoSize / 2, photoY + photoSize / 2, photoSize / 2, 0, Math.PI * 2);
+  ctx.closePath();
+  ctx.clip();
+  ctx.drawImage(photoImg, photoX, photoY, photoSize, photoSize);
+  ctx.restore();
+
+  ctx.font = "bold 60px Arial";
+  ctx.fillStyle = "#FFFFFF";
+  ctx.textAlign = "left";
+  ctx.fillText(title, photoX + photoSize + 30, headerY + 90);
+
+  const lyricsX = 50, lyricsY = headerY + headerH + 40, lyricsW = canvasWidth - 100, lyricsH = canvasHeight - (headerY + headerH + 80);
+  ctx.fillStyle = "rgba(0,0,0,0.8)";
+  roundRect(ctx, lyricsX, lyricsY, lyricsW, lyricsH, 20);
+  ctx.fill();
+
+  ctx.font = "32px Arial";
+  ctx.fillStyle = "#FFFFFF";
+  let lines = wrapText(ctx, lyrics, lyricsW - 60);
+  const maxLines = 30;
+  if (lines.length > maxLines) lines = lines.slice(0, maxLines).concat(["..."]);
+
+  let textY = lyricsY + 40;
+  for (let line of lines) {
+    ctx.fillText(line, lyricsX + 30, textY);
+    textY += 42;
+  }
+
+  return canvas.toBuffer();
+}
+    
 async function laheluSearch(query) {
  let { data } = await axios.get(`https://lahelu.com/api/post/get-search?query=${query}&cursor=cursor`)
  return data.postInfos
@@ -1403,6 +1518,8 @@ module.exports = {
  githubSearch,
  npmStalk,
  pin,
+ getLyrics,
+ createLyricsImage,
  ffStalk,
  createPayment,
  cekStatus,
