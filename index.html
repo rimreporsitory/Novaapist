@@ -3,212 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔥 ELGAN NVAPIS - RIM OFFICIAL EDITION</title>
+    <title>NV-APIS ULTIMATE</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #FF0033;
-            --secondary-color: #00FF88;
-            --hologram-effect: linear-gradient(45deg, 
-                rgba(255,0,51,0.8) 0%, 
-                rgba(0,255,136,0.8) 50%, 
-                rgba(255,0,51,0.8) 100%);
+            --neon-red: #ff0033;
+            --cyber-blue: #00f3ff;
+            --matrix-green: #00ff88;
         }
 
         body {
-            background: radial-gradient(circle, #0a0a0a 0%, #000000 100%);
+            background: #000;
             color: white;
-            min-height: 100vh;
+            font-family: 'Courier New', monospace;
             overflow-x: hidden;
-            font-family: 'Arial Black', sans-serif;
-            position: relative;
         }
 
-        .rim-watermark {
+        #loader {
             position: fixed;
-            font-size: 25rem;
-            opacity: 0.05;
-            z-index: 0;
-            pointer-events: none;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            transform: rotate(-45deg);
-            white-space: nowrap;
-            top: 30%;
-            left: -20%;
-            animation: watermark-glide 120s linear infinite;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        @keyframes watermark-glide {
-            0% { transform: rotate(-45deg) translateX(-100%); }
-            100% { transform: rotate(-45deg) translateX(100%); }
+        #matrixVideo {
+            position: absolute;
+            opacity: 0.3;
+        }
+
+        .cyber-text {
+            text-shadow: 0 0 10px var(--cyber-blue),
+                         0 0 20px var(--cyber-blue),
+                         0 0 30px var(--cyber-blue);
         }
 
         .cyber-border {
-            border: 4px solid transparent;
-            border-image: var(--hologram-effect) 1;
+            border: 3px solid var(--neon-red);
+            box-shadow: 0 0 30px var(--neon-red);
             position: relative;
             overflow: hidden;
-            box-shadow: 0 0 30px var(--primary-color);
-            z-index: 1;
         }
 
-        .cyber-card {
-            background: rgba(10,10,10,0.95);
-            backdrop-filter: blur(15px);
-            transform: perspective(1000px);
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            cursor: pointer;
-            position: relative;
+        .cyber-border::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, 
+                transparent 20%, 
+                rgba(255,0,51,0.3) 50%, 
+                transparent 80%);
+            animation: matrixFlow 3s linear infinite;
+            transform: rotate(45deg);
         }
 
-        .cyber-card:hover {
-            transform: perspective(1000px) rotateX(5deg) rotateY(5deg) translateZ(50px);
-            box-shadow: 0 0 50px var(--secondary-color);
+        @keyframes matrixFlow {
+            0% { transform: rotate(45deg) translateX(-100%); }
+            100% { transform: rotate(45deg) translateX(100%); }
         }
 
-        .neon-text {
-            text-shadow: 0 0 10px var(--primary-color),
-                         0 0 20px var(--primary-color),
-                         0 0 30px var(--primary-color);
-        }
-
-        .cyber-button {
-            background: linear-gradient(45deg,
-                var(--primary-color) 0%,
-                var(--secondary-color) 100%);
-            border: 2px solid white;
-            padding: 1.5rem 3rem;
-            font-size: 1.2rem;
-            position: relative;
+        .typing-animation {
+            border-right: 3px solid var(--matrix-green);
+            animation: typing 3s steps(40) infinite,
+                       blink-caret 0.75s step-end infinite;
+            white-space: nowrap;
             overflow: hidden;
-            transition: all 0.3s ease;
-            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
         }
 
-        .api-endpoint {
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--matrix-green) }
+        }
+
+        .api-card {
             background: rgba(0,0,0,0.7);
-            border-left: 4px solid var(--primary-color);
-            padding: 1rem;
-            margin: 0.5rem 0;
-            font-family: monospace;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card {
+            background: linear-gradient(45deg, 
+                rgba(255,0,51,0.1) 0%, 
+                rgba(0,243,255,0.1) 100%);
+            border: 1px solid var(--neon-red);
         }
     </style>
 </head>
 <body>
-    <div class="rim-watermark">RIM OFFICIAL</div>
+    <div id="loader">
+        <video id="matrixVideo" width="100%" autoplay muted loop>
+            <source src="https://files.catbox.moe/qlwvl4.mp4" type="video/mp4">
+        </video>
+        <h1 class="cyber-text">Loading Chunks...</h1>
+    </div>
 
-    <nav class="cyber-border cyber-card m-4" style="width: 300px; min-height: 95vh;">
-        <div class="p-4 text-center">
-            <img src="https://files.catbox.moe/nkur5d.png" 
-                 class="cyber-border mb-4" 
-                 style="width: 150px; height: 150px; object-fit: cover;">
-            
-            <h2 class="mb-4 neon-text" style="font-size: 2rem">
-                ELGAN <span style="color: var(--secondary-color)">NVAPIS</span>
-            </h2>
+    <audio id="bgAudio" loop>
+        <source src="https://files.catbox.moe/5pl58i.mp3" type="audio/mpeg">
+    </audio>
 
-            <button class="cyber-button w-100 mb-4" data-bs-toggle="modal" data-bs-target="#apiModal">
-                <i class="fas fa-terminal"></i> API TERMINAL
-            </button>
-
-            <div class="cyber-border p-3">
-                <h5 class="neon-text">🚨 SUPPORT</h5>
-                <a href="https://wa.me/6282285899023" 
-                   class="btn btn-outline-light btn-sm w-100 mt-2 cyber-button">
-                   <i class="fab fa-whatsapp"></i> RIM SUPPORT
-                </a>
-                <a href="https://whatsapp.com/channel/0029Vap84RE8KMqfYnd0V41A" 
-                   class="btn btn-outline-danger btn-sm w-100 mt-2 cyber-button">
-                   🔥 OFFICIAL CHANNEL
-                </a>
+    <div class="container-fluid d-none" id="mainContent">
+        <div class="row min-vh-100 align-items-center">
+            <div class="col-12 text-center mb-5">
+                <h1 class="typing-animation cyber-text display-1">Selamat Datang Di NV-APIS</h1>
             </div>
-        </div>
-    </nav>
 
-    <main class="flex-grow-1 p-4">
-        <div class="cyber-border cyber-card p-4">
-            <h1 class="neon-text display-4">RIM OFFICIAL API DASHBOARD</h1>
-            
-            <div class="row mt-4 g-4">
-                <div class="col-md-4">
-                    <div class="cyber-card p-4 text-center">
-                        <h3 class="neon-text">🚀 TOTAL REQUESTS</h3>
-                        <h2 class="display-2" style="color: var(--secondary-color)">2.1M</h2>
-                    </div>
-                </div>
-                
-                <div class="col-md-4">
-                    <div class="cyber-card p-4 text-center">
-                        <h3 class="neon-text">⚡ RESPONSE TIME</h3>
-                        <h2 class="display-2" style="color: var(--primary-color)">189ms</h2>
+            <div class="col-12 col-md-6 mb-4">
+                <div class="cyber-border api-card p-4 m-3">
+                    <h2 class="cyber-text">🤖 AI Services</h2>
+                    <div class="row mt-4">
+                        <div class="col-6 mb-3">
+                            <a href="/api/luminai?q=test" class="btn btn-danger w-100">LuminAI</a>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <a href="/api/blackbox?q=test" class="btn btn-danger w-100">Blackbox</a>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="cyber-border mt-4 p-4">
-                <h3 class="neon-text">🔥 LIVE API ENDPOINTS</h3>
-                <div class="mt-3">
-                    <div class="api-endpoint">
-                        <span class="text-success">GET</span> /api/rim-core/v2
-                        <button class="cyber-button btn-sm float-end" onclick="copyEndpoint('/api/rim-core/v2')">
-                            <i class="fas fa-copy"></i>
-                        </button>
-                    </div>
-                    <div class="api-endpoint">
-                        <span class="text-warning">POST</span> /api/quantum-process
-                        <button class="cyber-button btn-sm float-end" onclick="copyEndpoint('/api/quantum-process')">
-                            <i class="fas fa-copy"></i>
-                        </button>
+            <div class="col-12 col-md-6 mb-4">
+                <div class="cyber-border api-card p-4 m-3">
+                    <h2 class="cyber-text">🔧 Tools</h2>
+                    <div class="row mt-4">
+                        <div class="col-6 mb-3">
+                            <a href="/api/remove-bg" class="btn btn-info w-100">Remove BG</a>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <a href="/api/toBase64" class="btn btn-info w-100">Base64</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </main>
 
-    <div class="modal fade" id="apiModal">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content cyber-card">
-                <div class="modal-header cyber-border">
-                    <h2 class="modal-title neon-text">⚡ RIM OFFICIAL API TERMINAL</h2>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <div class="cyber-card p-3">
-                                <h4 class="neon-text">🤖 CORE API</h4>
-                                <div class="api-endpoint">
-                                    <span class="text-danger">GET</span> /api/rim-ai?query=[text]
-                                    <button class="cyber-button btn-sm float-end" onclick="copyEndpoint('/api/rim-ai?query=')">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
-                                <div class="api-endpoint">
-                                    <span class="text-success">POST</span> /api/image-process
-                                    <button class="cyber-button btn-sm float-end" onclick="copyEndpoint('/api/image-process')">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
+            <div class="col-12">
+                <div class="cyber-border p-4 m-3">
+                    <h2 class="cyber-text text-center mb-4">🌟 Testimoni Pengguna</h2>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="testimonial-card p-3">
+                                <div class="d-flex align-items-center">
+                                    <img src="https://randomuser.me/api/portraits/men/1.jpg" 
+                                         class="rounded-circle me-3" 
+                                         style="width: 60px; height: 60px;">
+                                    <div>
+                                        <h5 class="cyber-text">John Doe</h5>
+                                        <p>"API tercepat yang pernah saya gunakan!"</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="col-md-6">
-                            <div class="cyber-card p-3">
-                                <h4 class="neon-text">🔧 TOOLS API</h4>
-                                <div class="api-endpoint">
-                                    <span class="text-info">GET</span> /api/base64?text=[string]
-                                    <button class="cyber-button btn-sm float-end" onclick="copyEndpoint('/api/base64?text=')">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
-                                <div class="api-endpoint">
-                                    <span class="text-warning">POST</span> /api/encrypt
-                                    <button class="cyber-button btn-sm float-end" onclick="copyEndpoint('/api/encrypt')">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
+                        <div class="col-md-4 mb-3">
+                            <div class="testimonial-card p-3">
+                                <div class="d-flex align-items-center">
+                                    <img src="https://randomuser.me/api/portraits/women/1.jpg" 
+                                         class="rounded-circle me-3" 
+                                         style="width: 60px; height: 60px;">
+                                    <div>
+                                        <h5 class="cyber-text">Jane Smith</h5>
+                                        <p>"Documentasi lengkap dan mudah dipahami"</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -220,29 +187,23 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
     <script>
-        function copyEndpoint(text) {
-            navigator.clipboard.writeText(text);
-            alert('Endpoint copied: ' + text);
-        }
-
-        document.querySelectorAll('.cyber-card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = (e.clientX - rect.left) / rect.width - 0.5;
-                const y = (e.clientY - rect.top) / rect.height - 0.5;
-                
-                card.style.transform = `
-                    perspective(1000px)
-                    rotateX(${y * 10}deg)
-                    rotateY(${-x * 10}deg)
-                    translateZ(50px)
-                `;
+        setTimeout(() => {
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('mainContent').classList.remove('d-none');
+            document.getElementById('bgAudio').play().catch(() => {
+                const playBtn = document.createElement('button');
+                playBtn.className = 'btn btn-danger fixed-bottom m-3';
+                playBtn.innerHTML = '▶ Play Music';
+                playBtn.onclick = () => document.getElementById('bgAudio').play();
+                document.body.appendChild(playBtn);
             });
+        }, 5000);
 
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
-            });
-        });
+        let texts = ["NV-APIS", "ULTIMATE API", "BY RIMOFFICIAL"];
+        let count = 0;
+        setInterval(() => {
+            document.querySelector('.typing-animation').textContent = texts[count++ % texts.length];
+        }, 3000);
     </script>
 </body>
 </html>
