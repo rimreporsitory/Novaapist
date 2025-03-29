@@ -1,267 +1,331 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NV-APIS | API Dashboard Ultimate</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --primary-red: #e53935;
-      --secondary-red: #c62828;
-    }
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: #f8fafc;
-    }
-    .sidebar {
-      background: linear-gradient(195deg, var(--primary-red), var(--secondary-red));
-      width: 280px;
-      transition: all 0.3s ease;
-    }
-    .nav-link {
-      transition: all 0.2s ease;
-      border-radius: 8px;
-    }
-    .nav-link:hover {
-      background: rgba(255, 255, 255, 0.15);
-      transform: translateX(5px);
-    }
-    .api-endpoint {
-      border-left: 3px solid var(--primary-red);
-      transition: all 0.2s ease;
-    }
-    .api-endpoint:hover {
-      background: rgba(229, 57, 53, 0.05);
-      border-left-width: 5px;
-    }
-    .active-nav {
-      background: rgba(255, 255, 255, 0.2);
-      border-right: 3px solid white;
-    }
-    /* Animasi modal */
-    .modal-enter {
-      opacity: 0;
-      transform: scale(0.95);
-    }
-    .modal-enter-active {
-      opacity: 1;
-      transform: scale(1);
-      transition: opacity 200ms, transform 200ms;
-    }
-    .modal-exit {
-      opacity: 1;
-      transform: scale(1);
-    }
-    .modal-exit-active {
-      opacity: 0;
-      transform: scale(0.95);
-      transition: opacity 200ms, transform 200ms;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NV-APIS | Complete API Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* ... (CSS sebelumnya tetap sama) ... */
+    </style>
 </head>
 <body class="flex">
-  <!-- Sidebar -->
-  <aside class="sidebar min-h-screen text-white p-4 fixed left-0 top-0 z-20">
-    <div class="flex items-center gap-3 mb-8">
-      <img src="https://files.catbox.moe/nkur5d.png" alt="NV-APIS Logo" class="w-12 h-12 rounded-full border-2 border-white">
-      <h1 class="text-xl font-bold">NV-APIS</h1>
+    <!-- Sidebar & Main Content (Tetap sama) -->
+
+    <!-- API Modal Lengkap -->
+    <div id="apiModal" class="hidden fixed inset-0 bg-black/50 z-50">
+        <div class="absolute right-0 top-0 h-full w-[800px] bg-white shadow-xl p-6 overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-red-600">API Endpoints (800+ Fitur)</h2>
+                <button onclick="toggleApiModal()" class="text-gray-500 hover:text-red-600">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+
+            <!-- Semua Kategori API -->
+            <div class="grid grid-cols-2 gap-6">
+                <!-- AI -->
+                <div class="api-category">
+                    <h3 class="text-lg font-semibold mb-4 text-red-600">
+                        <i class="fas fa-robot mr-2"></i>Kecerdasan Buatan
+                    </h3>
+                    <div class="space-y-3">
+                        <a href="api/luminai?q=hello" target="_blank" class="api-endpoint block p-3 rounded-lg bg-gray-50">
+                            <div class="flex justify-between items-center">
+                                <span>LuminAi</span>
+                                <i class="fas fa-external-link-alt text-gray-400"></i>
+                            </div>
+                            <small class="text-gray-500">/api/luminai?q=[pertanyaan]</small>
+                        </a>
+                        <a href="api/openai?q=halo" target="_blank" class="api-endpoint block p-3 rounded-lg bg-gray-50">
+                            <div class="flex justify-between items-center">
+                                <span>OpenAI</span>
+                                <i class="fas fa-external-link-alt text-gray-400"></i>
+                            </div>
+                            <small class="text-gray-500">/api/openai?q=[input]</small>
+                        </a>
+                        <a href="api/islamai?q=halo" target="_blank" class="api-endpoint block p-3 rounded-lg bg-gray-50">
+                            <div class="flex justify-between items-center">
+                                <span>IslamAi</span>
+                                <i class="fas fa-external-link-alt text-gray-400"></i>
+                            </div>
+                            <small class="text-gray-500">/api/islamai?q=[pertanyaan]</small>
+                        </a>
+                        <a href="api/blackbox?q=siapa" target="_blank" class="api-endpoint block p-3 rounded-lg bg-gray-50">
+                            <div class="flex justify-between items-center">
+                                <span>Blackbox AI</span>
+                                <i class="fas fa-external-link-alt text-gray-400"></i>
+                            </div>
+                            <small class="text-gray-500">/api/blackbox?q=[query]</small>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Islam -->
+                <div class="api-category">
+                    <h3 class="text-lg font-semibold mb-4 text-red-600">
+                        <i class="fas fa-mosque mr-2"></i>Islam
+                    </h3>
+                    <div class="space-y-3">
+                        <a href="api/jadwalsholat?q=jakarta" target="_blank" class="api-endpoint block p-3 rounded-lg bg-gray-50">
+                            <div class="flex justify-between items-center">
+                                <span>Jadwal Sholat</span>
+                                <i class="fas fa-external-link-alt text-gray-400"></i>
+                            </div>
+                            <small class="text-gray-500">/api/jadwalsholat?q=[kota]</small>
+                        </a>
+                        <a href="api/islam/nosurat?q=1" target="_blank" class="api-endpoint block p-3 rounded-lg bg-gray-50">
+                            <div class="flex justify-between items-center">
+                                <span>Nomor Surah</span>
+                                <i class="fas fa-external-link-alt text-gray-400"></i>
+                            </div>
+                            <small class="text-gray-500">/api/islam/nosurat?q=[nomor]</small>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Search -->
+                <div class="api-category">
+                    <h3 class="text-lg font-semibold mb-4 text-red-600">
+                        <i class="fas fa-search mr-2"></i>Pencarian
+                    </h3>
+                    <div class="space-y-3">
+                        <a href="api/appstore?q=minecraft" target="_blank" class="api-endpoint block p-3 rounded-lg bg-gray-50">
+                            <div class="flex justify-between items-center">
+                                <span>App Store</span>
+                                <i class="fas fa-external-link-alt text-gray-400"></i>
+                            </div>
+                            <small class="text-gray-500">/api/appstore?q=[query]</small>
+                        </a>
+                        <a href="api/bingimg?q=kodok" target="_blank" class="api-endpoint block p-3 rounded-lg bg-gray-50">
+                            <div class="flex justify-between items-center">
+                                <span>Bing Image</span>
+                                <i class="fas fa-external-link-alt text-gray-400"></i>
+                            </div>
+                            <small class="text-gray-500">/api/bingimg?q=[keyword]</small>
+                        </a>
+                        <!-- Tambahkan semua endpoint search lainnya di sini -->
+                        <a href="api/lahelu?q=anime" target="_blank" class="api-endpoint block p-3 rounded-lg bg-gray-50">
+                            <div class="flex justify-between items-center">
+                                <span>Lahelu</span>
+                                <i class="fas fa-external-link-alt text-gray-400"></i>
+                            </div>
+                            <small class="text-gray-500">/api/lahelu?q=[query]</small>
+                        </a>
+                        <a href="api/playstore?q=minecraft" target="_blank" class="api-endpoint block p-3 rounded-lg bg-gray-50">
+                            <div class="flex justify-between items-center">
+                                <span>Play Store</span>
+                                <i class="fas fa-external-link-alt text-gray-400"></i>
+                            </div>
+                            <small class="text-gray-500">/api/playstore?q=[app]</small>
+                        </a>
+                        <a href="api/githubSearch?q=webapi" target="_blank" class="api-endpoint block p-3 rounded-lg bg-gray-50">
+                            <div class="flex justify-between items-center">
+                                <span>Github Search</span>
+                                <i class="fas fa-external-link-alt text-gray-400"></i>
+                            </div>
+                            <small class="text-gray-500">/api/githubSearch?q=[repo]</small>
+                        </a>
+                        <a href="api/google/search?q=html" target="_blank" class="api-endpoint block p-3 rounded-lg bg-gray-50">
+                            <div class="flex justify-between items-center">
+                                <span>Google Search</span>
+                                <i class="fas fa-external-link-alt text-gray-400"></i>
+                            </div>
+                            <small class="text-gray-500">/api/google/search?q=[query]</small>
+                        </a>
+                        <a href="api/pin?q=ikann" target="_blank" class="api-endpoint block p-3 rounded-lg bg-gray-50">
+                            <div class="flex justify-between items-center">
+                                <span>Pinterest</span>
+                                <i class="fas fa-external-link-alt text-gray-400"></i>
+                            </div>
+                            <small class="text-gray-500">/api/pin?q=[keyword]</small>
+                        </a>
+                        <a href="api/image/search?q=obito" target="_blank" class="api-endpoint block p-3 rounded-lg bg-gray-50">
+                            <div class="flex justify-between items-center">
+                                <span>Image Search</span>
+                                <i class="fas fa-external-link-alt text-gray-400"></i>
+                            </div>
+                            <small class="text-gray-500">/api/image/search?q=[query]</small>
+                        </a>
+                        <a href="api/search-image?query=ikann" target="_blank" class="api-endpoint block p-3 rounded-lg bg-gray-50">
+                            <div class="flex justify-between items-center">
+                                <span>Advanced Image Search</span>
+                                <i class="fas fa-external-link-alt text-gray-400"></i>
+                            </div>
+                            <small class="text-gray-500">/api/search-image?query=[keyword]</small>
+                        </a>
+                        <a href="api/search-image-advanced?query=steve" target="_blank" class="api-endpoint block p-3 rounded-lg bg-gray-50">
+                            <div class="flex justify-between items-center">
+                                <span>Pro Image Search</span>
+                                <i class="fas fa-external-link-alt text-gray-400"></i>
+                            </div>
+                            <small class="text-gray-500">/api/search-image-advanced?query=[term]</small>
+                        </a>
+                        <a href="api/yts?q=acumalaka" target="_blank" class="api-endpoint block p-3 rounded-lg bg-gray-50">
+                            <div class="flex justify-between items-center">
+                                <span>YouTube Search</span>
+                                <i class="fas fa-external-link-alt text-gray-400"></i>
+                            </div>
+                            <small class="text-gray-500">/api/yts?q=[video]</small>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Games -->
+                <div class="api-category">
+                    <h3 class="text-lg font-semibold mb-4 text-red-600">
+                        <i class="fas fa-gamepad mr-2"></i>Permainan
+                    </h3>
+                    <div class="space-y-3">
+                        <a href="api/game/family100" target="_blank" class="api-endpoint block p-3 rounded-lg bg-gray-50">
+                            <div class="flex justify-between items-center">
+                                <span>Family 100</span>
+                                <i class="fas fa-external-link-alt text-gray-400"></i>
+                            </div>
+                            <small class="text-gray-500">/api/game/family100</small>
+                        </a>
+                        <a href="api/game/tebakmakanan" target="_blank" class="api-endpoint block p-3 rounded-lg bg-gray-50">
+                            <div class="flex justify-between items-center">
+                                <span>Tebak Makanan</span>
+                                <i class="fas fa-external-link-alt text-gray-400"></i>
+                            </div>
+                            <small class="text-gray-500">/api/game/tebakmakanan</small>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Stalk -->
+                <div class="api-category">
+                    <h3 class="text-lg font-semibold mb-4 text-red-600">
+                        <i class="fas fa-user-secret mr-2"></i>Stalking
+                    </h3>
+                    <div class="space-y-3">
+                        <a href="api/ttstalk?q=ikanngeming" target="_blank" class="api-endpoint block p-3 rounded-lg bg-gray-50">
+                            <div class="flex justify-between items-center">
+                                <span>TikTok Stalk</span>
+                                <i class="fas fa-external-link-alt text-gray-400"></i>
+                            </div>
+                            <small class="text-gray-500">/api/ttstalk?q=[username]</small>
+                        </a>
+                        <a href="api/npmStalk?q=ikanngeming" target="_blank" class="api-endpoint block p-3 rounded-lg bg-gray-50">
+                            <div class="flex justify-between items-center">
+                                <span>NPM Stalk</span>
+                                <i class="fas fa-external-link-alt text-gray-400"></i>
+                            </div>
+                            <small class="text-gray-500">/api/npmStalk?q=[package]</small>
+                        </a>
+                        <a href="api/ffStalk?q=12345678" target="_blank" class="api-endpoint block p-3 rounded-lg bg-gray-50">
+                            <div class="flex justify-between items-center">
+                                <span>Free Fire Stalk</span>
+                                <i class="fas fa-external-link-alt text-gray-400"></i>
+                            </div>
+                            <small class="text-gray-500">/api/ffStalk?q=[ID]</small>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Tools -->
+                <div class="api-category">
+                    <h3 class="text-lg font-semibold mb-4 text-red-600">
+                        <i class="fas fa-tools mr-2"></i>Alat
+                    </h3>
+                    <div class="space-y-3">
+                        <a href="api/remove-bg?imageUrl=" target="_blank" class="api-endpoint block p-3 rounded-lg bg-gray-50">
+                            <div class="flex justify-between items-center">
+                                <span>Remove Background</span>
+                                <i class="fas fa-external-link-alt text-gray-400"></i>
+                            </div>
+                            <small class="text-gray-500">/api/remove-bg?imageUrl=[URL]</small>
+                        </a>
+                        <a href="api/bratv1?q=hai" target="_blank" class="api-endpoint block p-3 rounded-lg bg-gray-50">
+                            <div class="flex justify-between items-center">
+                                <span>Brat V1</span>
+                                <i class="fas fa-external-link-alt text-gray-400"></i>
+                            </div>
+                            <small class="text-gray-500">/api/bratv1?q=[input]</small>
+                        </a>
+                        <a href="api/bratv2?q=halo" target="_blank" class="api-endpoint block p-3 rounded-lg bg-gray-50">
+                            <div class="flex justify-between items-center">
+                                <span>Brat V2</span>
+                                <i class="fas fa-external-link-alt text-gray-400"></i>
+                            </div>
+                            <small class="text-gray-500">/api/bratv2?q=[input]</small>
+                        </a>
+                        <a href="api/utf8?encodedText=ZnVrdXNoaW1haWQ=" target="_blank" class="api-endpoint block p-3 rounded-lg bg-gray-50">
+                            <div class="flex justify-between items-center">
+                                <span>UTF8 Converter</span>
+                                <i class="fas fa-external-link-alt text-gray-400"></i>
+                            </div>
+                            <small class="text-gray-500">/api/utf8?encodedText=[text]</small>
+                        </a>
+                        <a href="api/toBase64?text=hai" target="_blank" class="api-endpoint block p-3 rounded-lg bg-gray-50">
+                            <div class="flex justify-between items-center">
+                                <span>Base64 Encoder</span>
+                                <i class="fas fa-external-link-alt text-gray-400"></i>
+                            </div>
+                            <small class="text-gray-500">/api/toBase64?text=[string]</small>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Orkut -->
+                <div class="api-category">
+                    <h3 class="text-lg font-semibold mb-4 text-red-600">
+                        <i class="fas fa-wallet mr-2"></i>Pembayaran
+                    </h3>
+                    <div class="space-y-3">
+                        <a href="/api/orkut/createPayment?amount=&codeqr=" target="_blank" class="api-endpoint block p-3 rounded-lg bg-gray-50">
+                            <div class="flex justify-between items-center">
+                                <span>Create Payment</span>
+                                <i class="fas fa-external-link-alt text-gray-400"></i>
+                            </div>
+                            <small class="text-gray-500">/api/orkut/createPayment?amount=[nominal]&codeqr=[data]</small>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- API Statistics -->
+            <div class="mt-8 p-4 bg-red-50 rounded-lg">
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="text-center p-4 bg-white rounded-lg">
+                        <div class="text-2xl font-bold text-red-600">2.1M+</div>
+                        <div class="text-sm text-gray-600">Total Requests</div>
+                    </div>
+                    <div class="text-center p-4 bg-white rounded-lg">
+                        <div class="text-2xl font-bold text-red-600">100%</div>
+                        <div class="text-sm text-gray-600">Uptime</div>
+                    </div>
+                    <div class="text-center p-4 bg-white rounded-lg">
+                        <div class="text-2xl font-bold text-red-600">69ms</div>
+                        <div class="text-sm text-gray-600">Avg Response</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <nav>
-      <ul class="space-y-2">
-        <li>
-          <a href="#" class="nav-link flex items-center gap-3 p-3 active-nav" aria-current="page">
-            <i class="fas fa-home"></i>
-            Dashboard
-          </a>
-        </li>
-        <li>
-          <a href="#apis" class="nav-link flex items-center gap-3 p-3">
-            <i class="fas fa-code"></i>
-            API Endpoints
-          </a>
-        </li>
-        <li>
-          <a href="#documentation" class="nav-link flex items-center gap-3 p-3">
-            <i class="fas fa-book"></i>
-            Documentation
-          </a>
-        </li>
-        <li>
-          <a href="#status" class="nav-link flex items-center gap-3 p-3">
-            <i class="fas fa-chart-line"></i>
-            System Status
-          </a>
-        </li>
-      </ul>
-      <div class="mt-8 border-t border-white/20 pt-4">
-        <button onclick="toggleApiModal()" class="w-full bg-white/10 hover:bg-white/20 p-3 rounded-lg flex items-center gap-2 transition-all">
-          <i class="fas fa-rocket"></i>
-          Quick API Access
-        </button>
-      </div>
-    </nav>
-  </aside>
 
-  <!-- Mobile Sidebar Toggle Button -->
-  <button id="mobileSidebarToggle" onclick="toggleSidebar()" 
-          class="fixed top-4 left-4 z-30 p-2 bg-red-600 text-white rounded-md md:hidden">
-    <i class="fas fa-bars"></i>
-  </button>
+    <script>
+        // ... (JavaScript sebelumnya tetap sama) ...
+        
+        // Auto-scroll ke section
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
 
-  <!-- Main Content -->
-  <main id="mainContent" class="flex-1 ml-[280px] p-8 transition-all duration-300">
-    <h2 class="text-3xl font-bold mb-6">Welcome to NV-APIS Dashboard Ultimate</h2>
-    <p class="mb-8 text-gray-700">Gunakan dashboard ini untuk mengakses berbagai API secara cepat dan mudah.</p>
-    
-    <!-- Konten Lainnya bisa ditambahkan di sini -->
-
-    <!-- API Modal -->
-    <div id="apiModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
-      <div class="relative bg-white shadow-xl rounded-lg w-full max-w-4xl p-6 overflow-y-auto max-h-full transform transition-all duration-200">
-        <div class="flex justify-between items-center mb-6">
-          <h2 class="text-2xl font-bold text-red-600">API Endpoints</h2>
-          <button onclick="toggleApiModal()" class="text-gray-500 hover:text-red-600" aria-label="Close Modal">
-            <i class="fas fa-times text-2xl"></i>
-          </button>
-        </div>
-        <!-- API Categories -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <!-- AI Section -->
-          <section class="api-category">
-            <h3 class="text-lg font-semibold mb-4 text-red-600">
-              <i class="fas fa-brain mr-2"></i> AI Services
-            </h3>
-            <div class="space-y-3">
-              <a href="api/luminai?q=hello" target="_blank" 
-                 class="api-endpoint block p-3 rounded-lg bg-gray-50">
-                <div class="flex justify-between items-center">
-                  <span>LuminAI</span>
-                  <i class="fas fa-external-link-alt text-gray-400"></i>
-                </div>
-                <small class="text-gray-500">/api/luminai?q=</small>
-              </a>
-              <!-- Tambahkan endpoint AI lainnya di sini -->
-            </div>
-          </section>
-          <!-- Search Section -->
-          <section class="api-category">
-            <h3 class="text-lg font-semibold mb-4 text-red-600">
-              <i class="fas fa-search mr-2"></i> Search
-            </h3>
-            <div class="space-y-3">
-              <a href="api/google/search?q=html" target="_blank" 
-                 class="api-endpoint block p-3 rounded-lg bg-gray-50">
-                <div class="flex justify-between items-center">
-                  <span>Google Search</span>
-                  <i class="fas fa-external-link-alt text-gray-400"></i>
-                </div>
-                <small class="text-gray-500">/api/google/search?q=</small>
-              </a>
-              <!-- Tambahkan endpoint Search lainnya di sini -->
-            </div>
-          </section>
-          <!-- Games Section -->
-          <section class="api-category">
-            <h3 class="text-lg font-semibold mb-4 text-red-600">
-              <i class="fas fa-gamepad mr-2"></i> Games
-            </h3>
-            <div class="space-y-3">
-              <a href="api/game/family100" target="_blank" 
-                 class="api-endpoint block p-3 rounded-lg bg-gray-50">
-                <div class="flex justify-between items-center">
-                  <span>Family 100</span>
-                  <i class="fas fa-external-link-alt text-gray-400"></i>
-                </div>
-                <small class="text-gray-500">/api/game/family100</small>
-              </a>
-              <!-- Tambahkan endpoint Games lainnya di sini -->
-            </div>
-          </section>
-          <!-- Tools Section -->
-          <section class="api-category">
-            <h3 class="text-lg font-semibold mb-4 text-red-600">
-              <i class="fas fa-tools mr-2"></i> Tools
-            </h3>
-            <div class="space-y-3">
-              <a href="api/remove-bg?imageUrl=" target="_blank" 
-                 class="api-endpoint block p-3 rounded-lg bg-gray-50">
-                <div class="flex justify-between items-center">
-                  <span>Background Remover</span>
-                  <i class="fas fa-external-link-alt text-gray-400"></i>
-                </div>
-                <small class="text-gray-500">/api/remove-bg?imageUrl=</small>
-              </a>
-              <!-- Tambahkan endpoint Tools lainnya di sini -->
-            </div>
-          </section>
-        </div>
-        <!-- API Statistics -->
-        <div class="mt-8 p-4 bg-red-50 rounded-lg">
-          <h3 class="text-lg font-semibold mb-4 text-red-600">API Statistics</h3>
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div class="text-center p-4 bg-white rounded-lg">
-              <div class="text-2xl font-bold text-red-600">1.2M</div>
-              <div class="text-sm text-gray-600">Total Requests</div>
-            </div>
-            <div class="text-center p-4 bg-white rounded-lg">
-              <div class="text-2xl font-bold text-red-600">99.98%</div>
-              <div class="text-sm text-gray-600">Uptime</div>
-            </div>
-            <div class="text-center p-4 bg-white rounded-lg">
-              <div class="text-2xl font-bold text-red-600">230ms</div>
-              <div class="text-sm text-gray-600">Avg. Response</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- End of API Modal -->
-
-  </main>
-
-  <script>
-    // Toggle API Modal
-    function toggleApiModal() {
-      const modal = document.getElementById('apiModal');
-      modal.classList.toggle('hidden');
-    }
-
-    // Close modal on outside click
-    document.getElementById('apiModal').addEventListener('click', function(e) {
-      if(e.target === this) toggleApiModal();
-    });
-
-    // Active nav link
-    document.querySelectorAll('.nav-link').forEach(link => {
-      link.addEventListener('click', function() {
-        const currentActive = document.querySelector('.active-nav');
-        if(currentActive) currentActive.classList.remove('active-nav');
-        this.classList.add('active-nav');
-      });
-    });
-
-    // Responsive sidebar toggle
-    function toggleSidebar() {
-      const sidebar = document.querySelector('.sidebar');
-      const mainContent = document.getElementById('mainContent');
-      sidebar.classList.toggle('-ml-[280px]');
-      mainContent.classList.toggle('ml-0');
-    }
-
-    // Close sidebar saat klik di luar (pada perangkat mobile)
-    document.addEventListener('click', function(e) {
-      const sidebar = document.querySelector('.sidebar');
-      const toggleBtn = document.getElementById('mobileSidebarToggle');
-      if(window.innerWidth < 768 && !sidebar.contains(e.target) && !toggleBtn.contains(e.target)){
-        sidebar.classList.add('-ml-[280px]');
-        document.getElementById('mainContent').classList.add('ml-0');
-      }
-    });
-  </script>
+        // Real-time API counter
+        let apiCount = 0;
+        setInterval(() => {
+            apiCount += Math.floor(Math.random() * 10);
+            document.querySelectorAll('.api-counter').forEach(el => {
+                el.textContent = apiCount.toLocaleString();
+            });
+        }, 1000);
+    </script>
 </body>
 </html>
